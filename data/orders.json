@@ -1,0 +1,186 @@
+{
+  "orders": [
+    {
+      "id": "1",
+      "order_number": "ORD20251026-0001",
+      "created_at": "2025-10-26T09:12:34Z",
+      "status": "pending",
+      "customer": {
+        "id": "23",
+        "first_name": "Ngọc",
+        "last_name": "Trần",
+        "email": "ngoc.tran@example.com",
+        "phone": "+84901234567"
+      },
+      "shipping_address": {
+        "name": "Ngọc Trần",
+        "phone": "+84901234567",
+        "line1": "123 Lê Lợi",
+        "line2": "P. Bến Thành",
+        "city": "Hồ Chí Minh",
+        "postal_code": "700000",
+        "country": "Vietnam"
+      },
+      "items": [
+        {
+          "product_sku": "DXE001",
+          "product_name": "Đầm Xòe Elegant",
+          "unit_price": 1590000,
+          "quantity": 1,
+          "image": "../images/Nữ/Váy/slider2.jpg"
+        }
+      ],
+      "subtotal": 1590000,
+      "shipping_fee": 30000,
+      "discount": 0,
+      "tax": 0,
+      "total_amount": 1620000,
+      "payment_method": "cod",
+      "note": "Giao giờ hành chính",
+      "history": [
+        {
+          "time": "2025-10-26T09:12:34Z",
+          "status": "pending",
+          "desc": "Đơn hàng đã đặt"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "order_number": "ORD20251025-0150",
+      "created_at": "2025-10-25T15:30:00Z",
+      "status": "delivered",
+      "customer": {
+        "id": null,
+        "first_name": "Lê",
+        "last_name": "Hương",
+        "email": "lehuong@example.com",
+        "phone": "0123456789"
+      },
+      "shipping_address": {
+        "name": "Lê Hương",
+        "phone": "0123456789",
+        "line1": "456 Nguyễn Huệ",
+        "line2": "",
+        "city": "Hồ Chí Minh",
+        "postal_code": "700000",
+        "country": "Vietnam"
+      },
+      "items": [
+        {
+          "product_sku": "DXE001",
+          "product_name": "Đầm Xòe Elegant",
+          "unit_price": 1590000,
+          "quantity": 1,
+          "image": "../images/Nữ/Váy/slider2.jpg"
+        },
+        {
+          "product_sku": "AT001",
+          "product_name": "Áo Thun Basic",
+          "unit_price": 790000,
+          "quantity": 1,
+          "image": "../images/Nữ/Áo/slider6.png"
+        }
+      ],
+      "subtotal": 2380000,
+      "shipping_fee": 30000,
+      "discount": 50000,
+      "tax": 0,
+      "total_amount": 2360000,
+      "payment_method": "cod",
+      "note": "Gọi trước khi giao",
+      "history": [
+        {
+          "time": "2025-10-25T09:00:00Z",
+          "status": "pending",
+          "desc": "Đơn hàng đã đặt"
+        },
+        {
+          "time": "2025-10-25T10:30:00Z",
+          "status": "processing",
+          "desc": "Đang xử lý"
+        },
+        {
+          "time": "2025-10-25T16:45:00Z",
+          "status": "shipped",
+          "desc": "Đã giao cho đơn vị vận chuyển"
+        },
+        {
+          "time": "2025-10-25T18:30:00Z",
+          "status": "delivered",
+          "desc": "Đã giao hàng thành công"
+        }
+      ]
+    },
+    {
+      "customer": {
+        "first_name": "ngocduy",
+        "last_name": "le ngoc duy",
+        "email": "ngocduy910jqk@gmail.com",
+        "phone": "76945714"
+      },
+      "shipping_address": {
+        "name": "ngocduy le ngoc duy",
+        "phone": "76945714",
+        "line1": "hungbuong",
+        "city": "hanoi",
+        "district": "hoànkiếm"
+      },
+      "items": [
+        {
+          "product_sku": "product3",
+          "product_name": "Áo Tweed Lilac Elegance",
+          "unit_price": 1990000,
+          "quantity": 111,
+          "image": "images/Nữ/ao/slider7.png"
+        }
+      ],
+      "subtotal": 220890000,
+      "shipping_fee": 0,
+      "discount": 0,
+      "tax": 0,
+      "total_amount": 220890000,
+      "payment_method": "cod",
+      "note": "",
+      "id": "3",
+      "order_number": "ORD20251025-0003",
+      "created_at": "2025-10-25T20:11:46.302Z",
+      "status": "pending"
+    },
+    {
+      "customer": {
+        "first_name": "ngocduy",
+        "last_name": "le ngoc duy",
+        "email": "ngocduy910jqk@gmail.com",
+        "phone": "76945714"
+      },
+      "shipping_address": {
+        "name": "ngocduy le ngoc duy",
+        "phone": "76945714",
+        "line1": "hungbuong",
+        "city": "hanoi",
+        "district": "hoànkiếm"
+      },
+      "items": [
+        {
+          "product_sku": "product3",
+          "product_name": "Áo Tweed Lilac Elegance",
+          "unit_price": 1990000,
+          "quantity": 100,
+          "image": "images/Nữ/ao/slider7.png"
+        }
+      ],
+      "subtotal": 199000000,
+      "shipping_fee": 0,
+      "discount": 0,
+      "tax": 0,
+      "total_amount": 199000000,
+      "payment_method": "cod",
+      "note": "",
+      "id": "4",
+      "order_number": "ORD20251025-0004",
+      "created_at": "2025-10-25T20:18:42.916Z",
+      "status": "pending"
+    }
+  ]
+}

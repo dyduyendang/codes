@@ -1,5 +1,9 @@
 // Analytics Configuration
-const APP_ANALYTICS = {
+// Lightweight guard: skip full analytics on admin pages to avoid blocking admin UI
+const APP_ANALYTICS = (function(){
+    const isAdminPage = typeof window !== 'undefined' && window.location && window.location.pathname && window.location.pathname.indexOf('/admin') !== -1;
+    return {
+        __isAdminPage: isAdminPage,
     // Google Analytics Configuration
     GA_MEASUREMENT_ID: 'G-XXXXXXXXXX', // Replace with your GA measurement ID
     
@@ -23,12 +27,18 @@ const APP_ANALYTICS = {
 
     // Initialize all analytics
     init: function() {
-            this.initGoogleAnalytics();
-            this.initFacebookPixel();
-            this.initTikTokPixel();
-            this.initPerformanceMonitoring();
-            this.initErrorTracking();
-            this.setupEventListeners();
+        // Skip heavy third-party analytics and observers on admin pages to keep UI snappy
+        if (this.__isAdminPage) {
+        // still set up minimal error listener in case admin pages need basic logging
+        console && console.debug && console.debug('Analytics: skipped on admin pages');
+        return;
+        }
+        this.initGoogleAnalytics();
+        this.initFacebookPixel();
+        this.initTikTokPixel();
+        this.initPerformanceMonitoring();
+        this.initErrorTracking();
+        this.setupEventListeners();
     },
 
         // Initialize TikTok Pixel
@@ -558,16 +568,11 @@ const APP_ANALYTICS = {
                 clearInterval(engagementTimer);
             });
     }
-};
-    // Initialize analytics when DOM is ready
-    document.addEventListener('DOMContentLoaded', () => {
-        APP_ANALYTICS.init();
-    });
+    };
+})();
 
-// Auto-initialize analytics when the script loads
-document.addEventListener('DOMContentLoaded', () => {
-    APP_ANALYTICS.init();
-});
+// Initialize analytics when DOM is ready (single listener)
+document.addEventListener('DOMContentLoaded', () => { APP_ANALYTICS.init(); });
 
 // Export for use in other scripts
 if (typeof module !== 'undefined' && module.exports) {

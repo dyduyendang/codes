@@ -6,8 +6,8 @@
     <title>Cài đặt - IVY moda Admin</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <script src="../js/analytics.js"></script>
-    <style>
+        <script src="../js/auth.js"></script>
+        <style>
         /* Base admin styles */
         .admin-container {
             display: flex;
@@ -376,6 +376,16 @@
     </style>
 </head>
 <body>
+    <script>
+            // Kiểm tra quyền admin ngay khi trang được tải 
+            if (!checkAdminAccess()) {
+                window.location.href = '../index.html';
+            }
+
+        if (!window.APP_ANALYTICS) {
+            window.APP_ANALYTICS = { trackPageView: function(){}, trackAdminAction: function(){}, trackOrderAction: function(){}, trackProductView: function(){}, trackAddToCart: function(){}, trackPurchase: function(){}, trackSignUp: function(){}, trackLogin: function(){}, trackSearch: function(){}, trackAddToWishlist: function(){} };
+        }
+    </script>
     <div class="admin-container">
         <aside class="admin-sidebar">
             <div class="admin-logo">
@@ -391,8 +401,8 @@
                 <li><a href="categories.html"><i class="fas fa-tags"></i><span>Danh mục</span></a></li>
                 <li><a href="marketing.html"><i class="fas fa-bullhorn"></i><span>Marketing</span></a></li>
                 <li><a href="reports.html"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a></li>
-                <li><a href="#" class="active"><i class="fas fa-cog"></i><span>Cài đặt</span></a></li>
-                <li><a href="../" onclick="return confirm('Bạn có chắc muốn đăng xuất?')">
+                <li><a href="settings.html" class="active"><i class="fas fa-cog"></i><span>Cài đặt</span></a></li>
+                <li><a href="../" onclick="if(!confirm('Bạn có chắc muốn đăng xuất?')) return false; localStorage.removeItem('isAdmin'); localStorage.removeItem('adminUser');">
                     <i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span>
                 </a></li>
             </ul>
@@ -617,26 +627,32 @@
         // Track setting changes
         document.querySelectorAll('input, select, textarea').forEach(input => {
             input.addEventListener('change', function() {
-                APP_ANALYTICS.trackAdminAction('update_setting', {
-                    setting: this.name,
-                    value: this.value
-                });
+                if (window.APP_ANALYTICS && typeof APP_ANALYTICS.trackAdminAction === 'function') {
+                    APP_ANALYTICS.trackAdminAction('update_setting', {
+                        setting: this.name,
+                        value: this.value
+                    });
+                }
             });
         });
 
         // Track switch toggles
         document.querySelectorAll('.switch input').forEach(toggle => {
             toggle.addEventListener('change', function() {
-                APP_ANALYTICS.trackAdminAction('toggle_setting', {
-                    setting: this.closest('.setting-item').querySelector('.setting-name').textContent,
-                    enabled: this.checked
-                });
+                if (window.APP_ANALYTICS && typeof APP_ANALYTICS.trackAdminAction === 'function') {
+                    APP_ANALYTICS.trackAdminAction('toggle_setting', {
+                        setting: this.closest('.setting-item').querySelector('.setting-name').textContent,
+                        enabled: this.checked
+                    });
+                }
             });
         });
 
         // Initialize analytics
         document.addEventListener('DOMContentLoaded', function() {
-            APP_ANALYTICS.trackPageView('Admin Settings', window.location.pathname);
+            if (window.APP_ANALYTICS && typeof APP_ANALYTICS.trackPageView === 'function') {
+                APP_ANALYTICS.trackPageView('Admin Settings', window.location.pathname);
+            }
         });
     </script>
 </body>

@@ -383,6 +383,7 @@
     </footer>
 
     <script src="app.js"></script>
+    <script src="js/sync-pending.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Load cart items
@@ -424,6 +425,11 @@
 
             // Initial render
             renderOrderSummary();
+
+            // Try to sync any pending orders saved in localStorage
+            if (window.syncPendingOrders) {
+                syncPendingOrders();
+            }
 
             // Xử lý chọn phương thức thanh toán
             const paymentMethods = document.querySelectorAll('.payment-method');
@@ -479,12 +485,55 @@
                     items: APP.getCart()
                 };
 
-                // Save order (you would typically send this to a server)
-                console.log('Order placed:', orderData);
-                
-                alert('Đặt hàng thành công! Cảm ơn bạn đã mua sắm tại IVY moda.');
-                APP.clearCart();
-                window.location.href = '/';
+                // Try to POST order to backend API. If it fails (no server), fall back to localStorage and existing behavior.
+                (async function(){
+                    try {
+                        const res = await fetch('/api/orders', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                customer: {
+                                    first_name: orderData.firstName,
+                                    last_name: orderData.lastName,
+                                    email: orderData.email,
+                                    phone: orderData.phone
+                                },
+                                shipping_address: {
+                                    name: orderData.firstName + ' ' + orderData.lastName,
+                                    phone: orderData.phone,
+                                    line1: orderData.address,
+                                    city: orderData.city,
+                                    district: orderData.district
+                                },
+                                items: orderData.items.map(i => ({ product_sku: i.id || i.sku || '', product_name: i.title, unit_price: i.price, quantity: i.qty || 1, image: i.img })),
+                                subtotal: (orderData.items || []).reduce((s,it)=> s + ((it.price||0)*(it.qty||1)), 0),
+                                shipping_fee: 0,
+                                discount: 0,
+                                tax: 0,
+                                total_amount: (orderData.items || []).reduce((s,it)=> s + ((it.price||0)*(it.qty||1)), 0),
+                                payment_method: orderData.paymentMethod,
+                                note: orderData.note
+                            })
+                        });
+
+                        if (!res.ok) throw new Error('Server returned ' + res.status);
+
+                        const body = await res.json();
+                        console.log('Order saved on server:', body);
+                        alert('Đặt hàng thành công! Đơn hàng đã được lưu.');
+                        APP.clearCart();
+                        window.location.href = 'index.html';
+                    } catch (err) {
+                        console.warn('Failed to save order via API, falling back to local save', err);
+                        // Fallback: save to localStorage (temporary) and also append to data/orders.json when running server manually
+                        const pending = JSON.parse(localStorage.getItem('pendingOrders') || '[]');
+                        pending.push(Object.assign({created_at: new Date().toISOString(), status: 'pending'}, orderData));
+                        localStorage.setItem('pendingOrders', JSON.stringify(pending));
+                        alert('Đặt hàng thành công! (Lưu tạm trên trình duyệt). Khi có server, đơn sẽ được gửi tự động.');
+                        APP.clearCart();
+                        window.location.href = 'index.html';
+                    }
+                })();
             } else {
                 alert('Vui lòng điền đầy đủ thông tin giao hàng.');
             }

@@ -3,50 +3,323 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Quản trị - Người dùng | IVY moda</title>
+  <title>Quản lý khách hàng - IVY moda Admin</title>
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="../js/auth.js"></script>
   <style>
-    .admin-container{max-width:1000px;margin:40px auto;padding:0 20px}
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:10px;border:1px solid #eee;text-align:left}
-    th{background:#fafafa}
-    .btn{padding:6px 10px;border-radius:4px;border:none;cursor:pointer}
-    .btn-danger{background:#e74c3c;color:white}
-    header{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;background:white;box-shadow:0 2px 5px rgba(0,0,0,0.05)}
+    /* Base admin styles */
+    .admin-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .admin-sidebar {
+      width: 250px;
+      background: #2c3e50;
+      color: white;
+      padding: 20px 0;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .admin-logo {
+      padding: 0 20px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .admin-logo img {
+      max-width: 150px;
+    }
+
+    .admin-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .admin-menu li {
+      margin-bottom: 5px;
+    }
+
+    .admin-menu a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: #ecf0f1;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .admin-menu a:hover,
+    .admin-menu a.active {
+      background: #34495e;
+      color: #3498db;
+    }
+
+    .admin-menu i {
+      width: 20px;
+      margin-right: 10px;
+    }
+
+    .admin-content {
+      flex-grow: 1;
+      margin-left: 250px;
+      padding: 20px;
+      background: #f5f6fa;
+    }
+
+    .admin-header {
+      background: white;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .admin-header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .admin-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-user img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* User list specific styles */
+    .user-table-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .user-table-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-title {
+      font-size: 18px;
+      color: #2c3e50;
+      margin: 0;
+    }
+
+    .user-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .user-table th,
+    .user-table td {
+      padding: 12px 20px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .user-table th {
+      background: #f8f9fa;
+      font-weight: 500;
+      color: #2c3e50;
+    }
+
+    .user-table tbody tr:hover {
+      background: #f8f9fa;
+    }
+
+    .user-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-danger {
+      background: #e74c3c;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #ecf0f1;
+      color: #2c3e50;
+    }
+
+    @media (max-width: 768px) {
+      .admin-sidebar {
+        width: 60px;
+      }
+
+      .admin-sidebar span {
+        display: none;
+      }
+
+      .admin-content {
+        margin-left: 60px;
+      }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo"><a href="/"><img src="../images/logo.png" alt="IVY moda"></a></div>
-    <div style="display:flex;gap:12px;align-items:center"><div class="user-area"></div><a href="../cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i><span class="cart-count-badge">0</span></a></div>
-  </header>
+  <script>
+    // Kiểm tra quyền admin ngay khi trang được tải
+    if (!checkAdminAccess()) {
+      window.location.href = '../index.html';
+    }
 
-  <main class="admin-container">
-    <h1>Quản trị - Người dùng</h1>
-    <p>Danh sách người dùng lưu trong localStorage</p>
-    <table id="usersTable">
-      <thead><tr><th>ID</th><th>Họ</th><th>Tên</th><th>Email</th><th>Điện thoại</th><th>Hành động</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </main>
+    if (!window.APP_ANALYTICS) {
+      window.APP_ANALYTICS = { 
+        trackPageView: function(){}, trackAdminAction: function(){}, 
+        trackOrderAction: function(){}, trackProductView: function(){}, 
+        trackAddToCart: function(){}, trackPurchase: function(){}, 
+        trackSignUp: function(){}, trackLogin: function(){}, 
+        trackSearch: function(){}, trackAddToWishlist: function(){} 
+      };
+    }
+  </script>
+
+  <div class="admin-container">
+    <aside class="admin-sidebar">
+      <div class="admin-logo">
+        <img src="../images/logo.png" alt="IVY moda Admin">
+      </div>
+
+      <ul class="admin-menu">
+        <li><a href="dashboard.html"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+        <li><a href="products.html"><i class="fas fa-box"></i><span>Sản phẩm</span></a></li>
+        <li><a href="orders.html"><i class="fas fa-shopping-cart"></i><span>Đơn hàng</span></a></li>
+        <li><a href="users.html" class="active"><i class="fas fa-users"></i><span>Khách hàng</span></a></li>
+        <li><a href="inventory.html"><i class="fas fa-warehouse"></i><span>Kho hàng</span></a></li>
+        <li><a href="categories.html"><i class="fas fa-tags"></i><span>Danh mục</span></a></li>
+        <li><a href="marketing.html"><i class="fas fa-bullhorn"></i><span>Marketing</span></a></li>
+        <li><a href="reports.html"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a></li>
+        <li><a href="settings.html"><i class="fas fa-cog"></i><span>Cài đặt</span></a></li>
+        <li><a href="../" onclick="if(!confirm('Bạn có chắc muốn đăng xuất?')) return false; localStorage.removeItem('isAdmin'); localStorage.removeItem('adminUser');">
+          <i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span>
+        </a></li>
+      </ul>
+    </aside>
+
+    <main class="admin-content">
+      <header class="admin-header">
+        <h1>Quản lý khách hàng</h1>
+        <div class="admin-header-right">
+          <div class="admin-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Tìm kiếm khách hàng...">
+          </div>
+          <div class="admin-user">
+            <img src="../images/avatar-default.jpg" alt="Admin">
+            <span id="adminEmail"></span>
+          </div>
+        </div>
+      </header>
+
+      <div class="user-table-container">
+        <div class="user-table-header">
+          <h2 class="table-title">Danh sách khách hàng</h2>
+          <div class="table-actions">
+            <button class="btn btn-secondary">
+              <i class="fas fa-download"></i> Xuất Excel
+            </button>
+          </div>
+        </div>
+
+        <table class="user-table" id="usersTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Họ tên</th>
+              <th>Email</th>
+              <th>Điện thoại</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
 
   <script src="../app.js"></script>
   <script>
     (function(){
+      // Protect admin page: only allow if localStorage.isAdmin === 'true'
+      try {
+        const isAdmin = localStorage.getItem('isAdmin') === 'true';
+        if (!isAdmin) {
+          // redirect to login with redirect back to this page
+          const redirect = encodeURIComponent(window.location.pathname + window.location.search);
+          window.location.href = '../login.html?redirect=' + redirect;
+          return;
+        }
+      } catch (e) {
+        console.error('Auth check error', e);
+        window.location.href = '../login.html';
+        return;
+      }
+
+      // show admin info
+      (function initHeader() {
+        const adminEmail = document.getElementById('adminEmail');
+        const admin = JSON.parse(localStorage.getItem('adminUser') || 'null');
+        if (adminEmail && admin?.email) {
+          adminEmail.textContent = admin.email;
+        }
+      })();
+
       function render(){
         const tbody = document.querySelector('#usersTable tbody');
         const users = APP.getUsers();
         tbody.innerHTML = '';
-        if(!users || users.length===0){ tbody.innerHTML = '<tr><td colspan="6">Chưa có user nào</td></tr>'; return; }
+        if(!users || users.length===0){ 
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px">Chưa có khách hàng nào</td></tr>'; 
+          return; 
+        }
         users.forEach(u=>{
           const tr = document.createElement('tr');
-          tr.innerHTML = `<td>${u.id}</td><td>${u.firstName||''}</td><td>${u.lastName||''}</td><td>${u.email||''}</td><td>${u.phone||''}</td><td><button class="btn btn-danger" data-id="${u.id}">Xóa</button></td>`;
+          tr.innerHTML = `
+            <td>${u.id}</td>
+            <td>${[u.firstName || '', u.lastName || ''].filter(Boolean).join(' ') || '(Chưa có tên)'}</td>
+            <td>${u.email || '(Chưa có email)'}</td>
+            <td>${u.phone || '(Chưa có SĐT)'}</td>
+            <td>
+              <div class="user-actions">
+                <button class="btn btn-danger" data-id="${u.id}">
+                  <i class="fas fa-trash"></i> Xóa
+                </button>
+              </div>
+            </td>`;
           tbody.appendChild(tr);
         });
         tbody.querySelectorAll('.btn-danger').forEach(b=>{
           b.addEventListener('click', function(){
-            if(confirm('Xóa user này?')){
+            if(confirm('Xóa khách hàng này?')){
               APP.deleteUser(parseInt(this.dataset.id));
               render();
             }
@@ -54,6 +327,11 @@
         });
       }
       render();
+
+      // Safe analytics pageview
+      document.addEventListener('DOMContentLoaded', function() {
+        APP_ANALYTICS.trackPageView('Admin Users', window.location.pathname);
+      });
     })();
   </script>
 </body>

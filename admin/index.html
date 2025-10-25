@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin — IVY moda</title>
+  <script src="../js/auth.js"></script>
+</head>
+<body>
+  <script>
+    // If not admin, checkAdminAccess() will redirect user to login
+    if (checkAdminAccess()) {
+      // already admin — go to dashboard
+      window.location.href = 'dashboard.html';
+    }
+  </script>
+</body>
+</html>

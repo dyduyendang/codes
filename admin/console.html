@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Admin Console — Quản lý tổng hợp</title>
     <link rel="stylesheet" href="../style.css">
+    <script src="../js/auth.js"></script>
     <style>
         /* Minimal styles specific to admin console (kept simple to blend with existing site) */
         body{font-family: Arial, Helvetica, sans-serif;margin:0;background:#f5f7fa}
@@ -70,6 +71,11 @@
     </div>
 
     <script>
+        // Kiểm tra quyền admin ngay khi trang được tải
+        if (!checkAdminAccess()) {
+            window.location.href = '../index.html';
+        }
+        
         // Sidebar navigation: load selected admin page into iframe
         (function(){
             const nav = document.getElementById('admin-nav');

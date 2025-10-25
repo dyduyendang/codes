@@ -6,7 +6,7 @@
     <title>Báo cáo - IVY moda Admin</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <script src="../js/analytics.js"></script>
+    <script src="../js/auth.js"></script>
     <style>
         /* Base admin styles */
         .admin-container {
@@ -323,6 +323,17 @@
     </style>
 </head>
 <body>
+    <script>
+        // Kiểm tra quyền admin ngay khi trang được tải
+        if (!checkAdminAccess()) {
+            window.location.href = '../index.html';
+        }
+
+        // No-op analytics stub for admin pages (prevents errors when analytics is not loaded)
+        if (!window.APP_ANALYTICS) {
+            window.APP_ANALYTICS = { trackPageView: function(){}, trackAdminAction: function(){}, trackOrderAction: function(){}, trackProductView: function(){}, trackAddToCart: function(){}, trackPurchase: function(){}, trackSignUp: function(){}, trackLogin: function(){}, trackSearch: function(){}, trackAddToWishlist: function(){} };
+        }
+    </script>
     <div class="admin-container">
         <aside class="admin-sidebar">
             <div class="admin-logo">
@@ -337,9 +348,9 @@
                 <li><a href="inventory.html"><i class="fas fa-warehouse"></i><span>Kho hàng</span></a></li>
                 <li><a href="categories.html"><i class="fas fa-tags"></i><span>Danh mục</span></a></li>
                 <li><a href="marketing.html"><i class="fas fa-bullhorn"></i><span>Marketing</span></a></li>
-                <li><a href="#" class="active"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a></li>
-                <li><a href="#settings"><i class="fas fa-cog"></i><span>Cài đặt</span></a></li>
-                <li><a href="../" onclick="return confirm('Bạn có chắc muốn đăng xuất?')">
+                <li><a href="reports.html" class="active"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i><span>Cài đặt</span></a></li>
+                <li><a href="../" onclick="if(!confirm('Bạn có chắc muốn đăng xuất?')) return false; localStorage.removeItem('isAdmin'); localStorage.removeItem('adminUser');">
                     <i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span>
                 </a></li>
             </ul>
@@ -518,130 +529,56 @@
         </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Initialize revenue chart
-        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
-        const revenueChart = new Chart(revenueCtx, {
-            type: 'line',
-            data: {
-                labels: ['01/10', '05/10', '10/10', '15/10', '20/10', '25/10'],
-                datasets: [{
-                    label: 'Doanh thu',
-                    data: [850, 920, 980, 1050, 1150, 1250],
-                    borderColor: '#3498db',
-                    tension: 0.4,
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Doanh thu theo thời gian (Triệu ₫)'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: '#f0f0f0'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
+        // Lazy load Chart.js for reports (avoids blocking render)
+        function loadScript(src, cb){
+            const s = document.createElement('script');
+            s.src = src;
+            s.async = true;
+            s.onload = cb;
+            s.onerror = function(){ console.error('Failed to load', src); cb && cb(new Error('load error')); };
+            document.head.appendChild(s);
+        }
 
-        // Initialize category chart
-        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
-        const categoryChart = new Chart(categoryCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Đầm', 'Áo', 'Quần', 'Giày', 'Phụ kiện'],
-                datasets: [{
-                    data: [30, 25, 20, 15, 10],
-                    backgroundColor: [
-                        '#3498db',
-                        '#2ecc71',
-                        '#e74c3c',
-                        '#f1c40f',
-                        '#9b59b6'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Doanh thu theo danh mục'
-                    }
-                }
-            }
-        });
+        function initCharts(){
+            if (!window.Chart) return;
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'line',
+                data: { labels: ['01/10','05/10','10/10','15/10','20/10','25/10'], datasets:[{ label:'Doanh thu', data:[850,920,980,1050,1150,1250], borderColor:'#3498db', tension:0.4, fill:false }] },
+                options: { responsive:true, plugins:{ title:{ display:true, text:'Doanh thu theo thời gian (Triệu ₫)'}}, scales:{ y:{ beginAtZero:true, grid:{ color:'#f0f0f0'}}, x:{ grid:{ display:false}}} }
+            });
 
-        // Initialize product performance chart
-        const productCtx = document.getElementById('productChart').getContext('2d');
-        const productChart = new Chart(productCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Đầm Xòe', 'Áo Sơ Mi', 'Quần Jean', 'Giày Cao Gót', 'Túi Xách'],
-                datasets: [{
-                    label: 'Doanh thu',
-                    data: [142.5, 85.8, 65.4, 45.2, 35.6],
-                    backgroundColor: '#3498db'
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Top sản phẩm bán chạy (Triệu ₫)'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: '#f0f0f0'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
+            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+            new Chart(categoryCtx, {
+                type: 'doughnut',
+                data:{ labels:['Đầm','Áo','Quần','Giày','Phụ kiện'], datasets:[{ data:[30,25,20,15,10], backgroundColor:['#3498db','#2ecc71','#e74c3c','#f1c40f','#9b59b6'] }] },
+                options:{ responsive:true, plugins:{ title:{ display:true, text:'Doanh thu theo danh mục' } } }
+            });
+
+            const productCtx = document.getElementById('productChart').getContext('2d');
+            new Chart(productCtx, {
+                type:'bar',
+                data:{ labels:['Đầm Xòe','Áo Sơ Mi','Quần Jean','Giày Cao Gót','Túi Xách'], datasets:[{ label:'Doanh thu', data:[142.5,85.8,65.4,45.2,35.6], backgroundColor:'#3498db' }] },
+                options:{ responsive:true, plugins:{ title:{ display:true, text:'Top sản phẩm bán chạy (Triệu ₫)'}}, scales:{ y:{ beginAtZero:true, grid:{ color:'#f0f0f0'}}, x:{ grid:{ display:false}}} }
+            });
+        }
+
+        (function(){
+            const start = function(){ if (window.Chart){ initCharts(); return; } loadScript('https://cdn.jsdelivr.net/npm/chart.js', function(err){ if (err) return; initCharts(); }); };
+            if ('requestIdleCallback' in window) requestIdleCallback(start, {timeout:1000}); else setTimeout(start, 500);
+        })();
 
         // Handle date range change
         document.querySelectorAll('.date-input').forEach(input => {
-            input.addEventListener('change', function() {
-                // Here you would normally update the charts and data
-                console.log('Date range changed:', this.value);
-            });
+            input.addEventListener('change', function() { console.log('Date range changed:', this.value); });
         });
 
         // Handle filters change
-        document.querySelectorAll('.filter-select').forEach(select => {
-            select.addEventListener('change', function() {
-                // Here you would normally update the charts and data
-                console.log('Filter changed:', this.value);
-            });
-        });
+        document.querySelectorAll('.filter-select').forEach(select => { select.addEventListener('change', function() { console.log('Filter changed:', this.value); }); });
 
-        // Initialize analytics
-        document.addEventListener('DOMContentLoaded', function() {
-            APP_ANALYTICS.trackPageView('Admin Reports', window.location.pathname);
-        });
+        // Safe analytics call
+        document.addEventListener('DOMContentLoaded', function(){ if (window.APP_ANALYTICS && typeof APP_ANALYTICS.trackPageView === 'function') APP_ANALYTICS.trackPageView('Admin Reports', window.location.pathname); });
     </script>
 </body>
 </html>

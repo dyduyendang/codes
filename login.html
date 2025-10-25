@@ -275,20 +275,50 @@
             // disable submit
             if(submitBtn){ submitBtn.disabled = true; submitBtn.dataset.orig = submitBtn.innerHTML; submitBtn.innerHTML = 'Đang đăng nhập...'; }
             try{
+                // Admin shortcut (local, static credential)
+                // NOTE: For production replace with server-side auth
+                const ADMIN_EMAIL = 'admin@ivymoda.local';
+                const ADMIN_PASS = 'Admin@123';
+                const urlParams = new URL(window.location.href).searchParams;
+                const redirectParam = urlParams.get('redirect');
+
+                if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
+                    // mark admin session in localStorage
+                    localStorage.setItem('isAdmin', 'true');
+                    localStorage.setItem('adminUser', JSON.stringify({ email: ADMIN_EMAIL }));
+                    if (window.renderUserArea) renderUserArea?.();
+                    alert('Đăng nhập admin thành công');
+                    if (redirectParam) {
+                        // redirect back to requested admin page
+                        window.location.href = redirectParam;
+                    } else {
+                        window.location.href = 'admin/dashboard.html';
+                    }
+                    return true;
+                } else {
+                    // clear any admin flag for a normal login attempt
+                    localStorage.removeItem('isAdmin');
+                    localStorage.removeItem('adminUser');
+                }
+
                 const res = await APP.loginUserAsync({email, password});
                 if (!res.ok) {
                     document.getElementById('passwordError').textContent = res.message || 'Đăng nhập thất bại';
                     document.getElementById('passwordError').style.display = 'block';
                     return false;
                 }
-                // success
-                // re-render user area if present
+                // success (regular user)
                 if (window.renderUserArea) renderUserArea?.();
                 alert('Đăng nhập thành công, chuyển tới trang chủ');
-                window.location.href = 'index.html';
+                if (redirectParam) {
+                    window.location.href = redirectParam;
+                } else {
+                    window.location.href = 'index.html';
+                }
             }catch(e){
                 document.getElementById('passwordError').textContent = 'Lỗi hệ thống. Vui lòng thử lại.';
                 document.getElementById('passwordError').style.display = 'block';
+                console.error(e);
             }finally{
                 if(submitBtn){ submitBtn.disabled = false; submitBtn.innerHTML = submitBtn.dataset.orig || 'Đăng nhập'; }
             }

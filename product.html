@@ -7,13 +7,195 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
-    .product-page { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-    .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-    .product-images img { width:100%; border-radius:8px; }
-    .product-details h1 { font-size:24px; margin-bottom:10px }
-    .price { font-size:20px; color:#221f20; font-weight:700; margin-bottom:10px }
-    .add-btn { background:#221f20; color:white; padding:12px 20px; border-radius:6px; border:none; cursor:pointer }
-    header { display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:white; box-shadow:0 2px 5px rgba(0,0,0,0.05); }
+    .breadcrumb {
+      padding: 15px 0;
+      color: #999;
+      font-size: 14px;
+    }
+    .breadcrumb a {
+      color: #999;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover {
+      color: #221f20;
+    }
+    .product-page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: 60% 40%;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .product-images {
+      position: relative;
+    }
+    .main-image {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+    }
+    .thumbnail-list {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .thumbnail {
+      width: 80px;
+      height: 100px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    .thumbnail:hover {
+      border-color: #221f20;
+    }
+    .product-info h1 {
+      font-size: 24px;
+      color: #221f20;
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+    .product-code {
+      color: #999;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .price {
+      font-size: 24px;
+      color: #221f20;
+      font-weight: 600;
+      margin-bottom: 25px;
+    }
+    .size-section {
+      margin-bottom: 25px;
+    }
+    .size-label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .size-options {
+      display: flex;
+      gap: 10px;
+    }
+    .size-option {
+      width: 40px;
+      height: 40px;
+      border: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .size-option:hover,
+    .size-option.active {
+      border-color: #221f20;
+      background: #221f20;
+      color: white;
+    }
+    .size-guide {
+      color: #666;
+      text-decoration: underline;
+      font-size: 14px;
+      margin-top: 10px;
+      display: inline-block;
+    }
+    .quantity-section {
+      margin-bottom: 25px;
+    }
+    .quantity-label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .quantity-btn {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #ddd;
+      background: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .quantity-btn:hover {
+      background: #f5f5f5;
+    }
+    .quantity-input {
+      width: 50px;
+      height: 32px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    .add-btn {
+      flex: 1;
+      height: 45px;
+      border: none;
+      font-size: 15px;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .add-to-cart {
+      background: white;
+      border: 1px solid #221f20;
+      color: #221f20;
+    }
+    .add-to-cart:hover {
+      background: #f5f5f5;
+    }
+    .buy-now {
+      background: #221f20;
+      color: white;
+    }
+    .buy-now:hover {
+      background: #000;
+    }
+    .product-tabs {
+      border-top: 1px solid #eee;
+      margin-top: 40px;
+    }
+    .tab-buttons {
+      display: flex;
+      gap: 30px;
+      margin: 30px 0;
+    }
+    .tab-button {
+      font-size: 16px;
+      color: #666;
+      cursor: pointer;
+      padding-bottom: 10px;
+      border-bottom: 2px solid transparent;
+    }
+    .tab-button.active {
+      color: #221f20;
+      border-color: #221f20;
+    }
+    .tab-content {
+      color: #666;
+      line-height: 1.6;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
   </style>
 </head>
 <body>
@@ -32,7 +214,55 @@
     <div id="productContainer">Đang tải...</div>
   </main>
 
-  <footer></footer>
+  <footer>
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>Về IVY moda</h3>
+        <ul>
+          <li><a href="thong-tin/ve-chung-toi.html">Giới thiệu</a></li>
+          <li><a href="thong-tin/lien-he.html">Liên hệ</a></li>
+          <li><a href="#">Tuyển dụng</a></li>
+          <li><a href="#">Tin tức</a></li>
+          <li><a href="#">Hệ thống cửa hàng</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Hỗ trợ khách hàng</h3>
+        <ul>
+          <li><a href="ho-tro/huong-dan-chon-size.html">Hướng dẫn chọn size</a></li>
+          <li><a href="#">Chính sách khách hàng VIP</a></li>
+          <li><a href="ho-tro/chinh-sach-doi-tra.html">Chính sách đổi trả</a></li>
+          <li><a href="ho-tro/chinh-sach-bao-mat.html">Chính sách bảo mật</a></li>
+          <li><a href="ho-tro/thanh-toan-giao-nhan.html">Thanh toán, giao nhận</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Liên hệ</h3>
+        <div class="contact-info">
+          <p><i class="fas fa-phone"></i> Hotline: 0123 456 789</p>
+          <p><i class="fas fa-envelope"></i> Email: cs@ivymoda.vn</p>
+          <p><i class="fas fa-map-marker-alt"></i> Tầng 12, Tòa nhà IVY, Số 123 Nguyễn Trãi, Thanh Xuân, Hà Nội</p>
+        </div>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Đăng ký nhận tin</h3>
+        <p>Nhận thông tin sản phẩm mới nhất, tin khuyến mãi và nhiều hơn nữa.</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Email của bạn" required>
+          <button type="submit">Đăng ký</button>
+        </form>
+      </div>
+    </div>
+  </footer>
 
   <script src="app.js"></script>
   <script>
@@ -44,36 +274,161 @@
         const el = document.getElementById('productContainer');
         if(!p){ el.innerHTML = '<p>Sản phẩm không tìm thấy</p>'; return; }
         el.innerHTML = `
+          <div class="breadcrumb">
+            <a href="/">Trang chủ</a> / 
+            <a href="/nu">Nữ</a> / 
+            ${p.title}
+          </div>
           <div class="product-grid">
             <div class="product-images">
-              <img src="${p.images[0]}" alt="${p.title}">
-            </div>
-            <div class="product-details">
-              <h1>${p.title}</h1>
-              <div class="price">${formatVND(p.price)}</div>
-              <p>${p.description}</p>
-              <div style="margin:16px 0">
-                <label>Size:</label>
-                <select id="sizeSelect"><option>S</option><option>M</option><option>L</option><option>XL</option></select>
+              <img src="${p.images[0]}" alt="${p.title}" class="main-image" id="mainImage">
+              <div class="thumbnail-list">
+                ${p.images.map((img, idx) => `
+                  <img src="${img}" alt="${p.title}" class="thumbnail" onclick="document.getElementById('mainImage').src='${img}'">
+                `).join('')}
               </div>
-              <div>
-                <button class="add-btn" id="addToCartBtn">Thêm vào giỏ</button>
-                <button class="add-btn" id="buyNowBtn" style="margin-left:8px;background:#ff6f61">Mua ngay</button>
+            </div>
+            <div class="product-info">
+              <h1>${p.title}</h1>
+              <div class="product-code">SKU: ${p.id}</div>
+              <div class="price">${formatVND(p.price)}</div>
+              
+              <div class="size-section">
+                <label class="size-label">Kích thước</label>
+                <div class="size-options">
+                  <div class="size-option" data-size="S">S</div>
+                  <div class="size-option" data-size="M">M</div>
+                  <div class="size-option" data-size="L">L</div>
+                  <div class="size-option" data-size="XL">XL</div>
+                  <div class="size-option" data-size="XXL">XXL</div>
+                </div>
+                <a href="huong-dan-chon-size.html" class="size-guide">Hướng dẫn chọn size</a>
+              </div>
+
+              <div class="quantity-section">
+                <label class="quantity-label">Số lượng</label>
+                <div class="quantity-controls">
+                  <button class="quantity-btn" onclick="updateQuantity(-1)">-</button>
+                  <input type="number" class="quantity-input" id="quantityInput" value="1" min="1" max="99">
+                  <button class="quantity-btn" onclick="updateQuantity(1)">+</button>
+                </div>
+              </div>
+
+              <div class="action-buttons">
+                <button class="add-btn add-to-cart" id="addToCartBtn">Thêm vào giỏ</button>
+                <button class="add-btn buy-now" id="buyNowBtn">Mua ngay</button>
+              </div>
+
+              <div class="product-tabs">
+                <div class="tab-buttons">
+                  <div class="tab-button active" onclick="switchTab('description')">Mô tả</div>
+                  <div class="tab-button" onclick="switchTab('size-guide')">Hướng dẫn chọn size</div>
+                  <div class="tab-button" onclick="switchTab('shipping')">Vận chuyển & Đổi trả</div>
+                </div>
+                <div class="tab-content" id="tabContent">
+                  <div class="tab-pane active" id="description">
+                    ${p.description || 'Đang cập nhật thông tin chi tiết sản phẩm...'}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         `;
 
+        // Initialize size selection
+        const sizeOptions = document.querySelectorAll('.size-option');
+        let selectedSize = null;
+        
+        sizeOptions.forEach(option => {
+          option.addEventListener('click', function() {
+            sizeOptions.forEach(opt => opt.classList.remove('active'));
+            this.classList.add('active');
+            selectedSize = this.dataset.size;
+          });
+        });
+
+        // Initialize quantity controls
+        window.updateQuantity = function(delta) {
+          const input = document.getElementById('quantityInput');
+          let value = parseInt(input.value) + delta;
+          value = Math.max(1, Math.min(99, value));
+          input.value = value;
+        };
+
+        // Initialize tab switching
+        window.switchTab = function(tabId) {
+          const buttons = document.querySelectorAll('.tab-button');
+          const content = document.getElementById('tabContent');
+          
+          buttons.forEach(btn => btn.classList.remove('active'));
+          event.target.classList.add('active');
+          
+          switch(tabId) {
+            case 'description':
+              content.innerHTML = `<div class="tab-pane active">${p.description || 'Đang cập nhật thông tin chi tiết sản phẩm...'}</div>`;
+              break;
+            case 'size-guide':
+              content.innerHTML = `<div class="tab-pane active">
+                <h3>Bảng size chuẩn</h3>
+                <p>Bạn vui lòng tham khảo bảng size chuẩn của IVY moda dưới đây để chọn được size phù hợp nhất.</p>
+                <!-- Thêm bảng size chi tiết ở đây -->
+              </div>`;
+              break;
+            case 'shipping':
+              content.innerHTML = `<div class="tab-pane active">
+                <h3>Chính sách vận chuyển</h3>
+                <p>- Miễn phí vận chuyển cho đơn hàng từ 498,000đ</p>
+                <p>- Thời gian vận chuyển: 2-5 ngày làm việc</p>
+                <h3>Chính sách đổi trả</h3>
+                <p>- Đổi trả miễn phí trong vòng 30 ngày</p>
+                <p>- Sản phẩm còn nguyên tem mác, chưa qua sử dụng</p>
+              </div>`;
+              break;
+          }
+        };
+
+        // Handle add to cart
         document.getElementById('addToCartBtn').addEventListener('click', function(){
-          APP.addToCart({id:p.id, title:p.title, price:p.price, img:p.images[0], qty:1});
-          document.querySelectorAll('.cart-count-badge').forEach(b=>b.textContent = APP.getCart().reduce((s,i)=>s+i.qty,0));
+          if (!selectedSize) {
+            alert('Vui lòng chọn size');
+            return;
+          }
+          const qty = parseInt(document.getElementById('quantityInput').value);
+          APP.addToCart({
+            id: p.id,
+            title: p.title,
+            price: p.price,
+            img: p.images[0],
+            size: selectedSize,
+            qty: qty
+          });
+          document.querySelectorAll('.cart-count-badge').forEach(b=>
+            b.textContent = APP.getCart().reduce((s,i)=>s+i.qty,0)
+          );
           alert('Đã thêm vào giỏ hàng');
         });
+
+        // Handle buy now
         document.getElementById('buyNowBtn').addEventListener('click', function(){
-          APP.addToCart({id:p.id, title:p.title, price:p.price, img:p.images[0], qty:1});
-          window.location.href='cart.html';
+          if (!selectedSize) {
+            alert('Vui lòng chọn size');
+            return;
+          }
+          const qty = parseInt(document.getElementById('quantityInput').value);
+          APP.addToCart({
+            id: p.id,
+            title: p.title,
+            price: p.price,
+            img: p.images[0],
+            size: selectedSize,
+            qty: qty
+          });
+          window.location.href = 'cart.html';
         });
-      }).catch(err=>{ document.getElementById('productContainer').textContent='Không thể tải dữ liệu sản phẩm'; });
+      }).catch(err => {
+        document.getElementById('productContainer').textContent = 'Không thể tải dữ liệu sản phẩm';
+        console.error(err);
+      });
     })();
   </script>
 </body>

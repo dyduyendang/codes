@@ -6,7 +6,7 @@
     <title>Quản lý đơn hàng - IVY moda Admin</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <script src="../js/analytics.js"></script>
+    <script src="../js/auth.js"></script>
     <style>
         /* Copy base admin styles */
         .admin-container {
@@ -418,6 +418,78 @@
             margin-top: 20px;
         }
 
+        /* Form styles */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .form-actions .btn {
+            min-width: 120px;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 1rem;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 1100;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .toast.success {
+            border-left: 4px solid #2ecc71;
+        }
+
+        .toast.error {
+            border-left: 4px solid #e74c3c;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
         .page-btn {
             padding: 8px 12px;
             border: 1px solid #ddd;
@@ -466,6 +538,16 @@
     </style>
 </head>
 <body>
+    <script>
+        // Kiểm tra quyền admin ngay khi trang được tải
+        if (!checkAdminAccess()) {
+            window.location.href = '../index.html';
+        }
+
+        if (!window.APP_ANALYTICS) {
+            window.APP_ANALYTICS = { trackPageView: function(){}, trackAdminAction: function(){}, trackOrderAction: function(){}, trackProductView: function(){}, trackAddToCart: function(){}, trackPurchase: function(){}, trackSignUp: function(){}, trackLogin: function(){}, trackSearch: function(){}, trackAddToWishlist: function(){} };
+        }
+    </script>
     <div class="admin-container">
         <aside class="admin-sidebar">
             <div class="admin-logo">
@@ -601,34 +683,8 @@
                             <th>Thao tác</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>#ORD001</td>
-                            <td>
-                                <div class="customer-info">
-                                    <img src="../images/avatar-default.jpg" alt="Customer" class="customer-avatar">
-                                    <div class="customer-details">
-                                        <span class="customer-name">Nguyễn Văn A</span>
-                                        <span class="customer-email">nguyenvana@email.com</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>25/10/2025</td>
-                            <td>1.590.000₫</td>
-                            <td>COD</td>
-                            <td><span class="order-status status-delivered">Đã giao hàng</span></td>
-                            <td>
-                                <div class="table-actions">
-                                    <button class="btn btn-secondary" onclick="viewOrderDetails('ORD001')">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="btn btn-secondary" onclick="printOrder('ORD001')">
-                                        <i class="fas fa-print"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- More order rows -->
+                    <tbody id="ordersTbody">
+                        <!-- Rows will be populated from data/orders.json -->
                     </tbody>
                 </table>
 
@@ -641,6 +697,35 @@
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- Edit Order Modal -->
+    <div id="editOrderModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('editOrderModal')">&times;</button>
+            <h2 style="margin-top: 0;">Chỉnh sửa đơn hàng</h2>
+            <form id="editOrderForm" onsubmit="handleEditOrderSubmit(event)">
+                <input type="hidden" id="editOrderId">
+                <div class="form-group">
+                    <label>Trạng thái đơn hàng:</label>
+                    <select id="editOrderStatus" required>
+                        <option value="pending">Chờ xử lý</option>
+                        <option value="processing">Đang xử lý</option>
+                        <option value="shipped">Đã giao cho vận chuyển</option>
+                        <option value="delivered">Đã giao hàng</option>
+                        <option value="cancelled">Đã hủy</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ghi chú:</label>
+                    <textarea id="editOrderNote" rows="3" placeholder="Nhập ghi chú về thay đổi trạng thái"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('editOrderModal')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Order Details Modal -->
@@ -798,25 +883,312 @@
     </div>
 
     <script>
-        // Modal functions
+        // Client-side orders management (loads data/orders.json)
+        let ORDERS = [];
+
+        function formatDate(iso) {
+            try {
+                const d = new Date(iso);
+                return d.toLocaleString('vi-VN');
+            } catch (e) { return iso; }
+        }
+
+        function formatPrice(v) {
+            return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '₫';
+        }
+
+        function statusClass(status) {
+            switch (status) {
+                case 'pending': return 'status-pending';
+                case 'processing': return 'status-processing';
+                case 'shipped': return 'status-shipped';
+                case 'delivered': return 'status-delivered';
+                case 'cancelled': return 'status-cancelled';
+                default: return '';
+            }
+        }
+
+        function renderOrders(rows) {
+            const tbody = document.getElementById('ordersTbody');
+            tbody.innerHTML = '';
+            rows.forEach(order => {
+                const tr = document.createElement('tr');
+                tr.dataset.orderId = order.id;
+
+                const customerName = (order.customer?.first_name || '') + ' ' + (order.customer?.last_name || '');
+
+                tr.innerHTML = `
+                    <td>${order.order_number}</td>
+                    <td>
+                        <div class="customer-info">
+                            <img src="../images/avatar-default.jpg" alt="Customer" class="customer-avatar">
+                            <div class="customer-details">
+                                <span class="customer-name">${customerName.trim()}</span>
+                                <span class="customer-email">${order.customer?.email || ''}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${formatDate(order.created_at)}</td>
+                    <td>${formatPrice(order.total_amount)}</td>
+                    <td>${(order.payment_method || '').toUpperCase()}</td>
+                    <td><span class="order-status ${statusClass(order.status)}">${order.status}</span></td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="btn btn-secondary" onclick="viewOrderDetails('${order.id}')"><i class="fas fa-eye"></i></button>
+                            <button class="btn btn-secondary" onclick="editOrder('${order.id}')"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-secondary" onclick="cancelOrder('${order.id}')" ${order.status === 'cancelled' ? 'disabled' : ''}><i class="fas fa-times"></i></button>
+                            <button class="btn btn-secondary" onclick="printOrder('${order.id}')"><i class="fas fa-print"></i></button>
+                        </div>
+                    </td>
+                `;
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        function applyFilters() {
+            const status = document.getElementById('statusFilter').value;
+            const payment = document.getElementById('paymentFilter').value;
+            const start = document.getElementById('startDate').value;
+            const end = document.getElementById('endDate').value;
+
+            let filtered = ORDERS.slice();
+            if (status) filtered = filtered.filter(o => o.status === status);
+            if (payment) filtered = filtered.filter(o => o.payment_method === payment);
+            if (start) filtered = filtered.filter(o => new Date(o.created_at) >= new Date(start));
+            if (end) filtered = filtered.filter(o => new Date(o.created_at) <= new Date(end + 'T23:59:59'));
+
+            renderOrders(filtered);
+        }
+
+        // Modal rendering: replace modal content with order detail
         function viewOrderDetails(orderId) {
-            document.getElementById('orderDetailsModal').style.display = 'block';
+            const order = ORDERS.find(o => o.id === orderId);
+            if (!order) return alert('Không tìm thấy đơn hàng');
+
+            const modal = document.getElementById('orderDetailsModal');
+            const modalContent = modal.querySelector('.modal-content');
+
+            const customerName = (order.customer?.first_name || '') + ' ' + (order.customer?.last_name || '');
+
+            let itemsHtml = '';
+            order.items.forEach(it => {
+                itemsHtml += `
+                    <div class="product-item">
+                        <img src="${it.image || '../images/slider1.jpg'}" alt="Product" class="product-image">
+                        <div class="product-info">
+                            <h4>${it.product_name}</h4>
+                            <div class="product-variant">SKU: ${it.product_sku}</div>
+                            <div>Số lượng: ${it.quantity}</div>
+                        </div>
+                        <div class="product-price">${formatPrice(it.unit_price)}</div>
+                    </div>
+                `;
+            });
+
+            let historyHtml = '';
+            (order.history||[]).slice().reverse().forEach(h => {
+                historyHtml += `
+                    <div class="timeline-item">
+                        <div class="timeline-icon"><i class="fas fa-circle"></i></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">${formatDate(h.time)}</div>
+                            <div class="timeline-title">${h.status}</div>
+                            <div class="timeline-desc">${h.desc}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            modalContent.innerHTML = `
+                <button class="close-modal" onclick="closeModal('orderDetailsModal')">&times;</button>
+                <h2 style="margin-top:0;">Chi tiết đơn hàng ${order.order_number}</h2>
+                <div class="order-details-grid">
+                    <div class="detail-group">
+                        <h3>Thông tin đơn hàng</h3>
+                        <div class="detail-item"><span class="detail-label">Ngày đặt:</span><span class="detail-value">${formatDate(order.created_at)}</span></div>
+                        <div class="detail-item"><span class="detail-label">Trạng thái:</span><span class="detail-value"><span class="order-status ${statusClass(order.status)}">${order.status}</span></span></div>
+                        <div class="detail-item"><span class="detail-label">Thanh toán:</span><span class="detail-value">${(order.payment_method||'').toUpperCase()}</span></div>
+                    </div>
+                    <div class="detail-group">
+                        <h3>Thông tin khách hàng</h3>
+                        <div class="detail-item"><span class="detail-label">Họ tên:</span><span class="detail-value">${customerName.trim()}</span></div>
+                        <div class="detail-item"><span class="detail-label">Email:</span><span class="detail-value">${order.customer?.email||''}</span></div>
+                        <div class="detail-item"><span class="detail-label">SĐT:</span><span class="detail-value">${order.customer?.phone||''}</span></div>
+                    </div>
+                    <div class="detail-group">
+                        <h3>Địa chỉ giao hàng</h3>
+                        <div class="detail-item"><span class="detail-label">Người nhận:</span><span class="detail-value">${order.shipping_address?.name||''}</span></div>
+                        <div class="detail-item"><span class="detail-label">SĐT:</span><span class="detail-value">${order.shipping_address?.phone||''}</span></div>
+                        <div class="detail-item"><span class="detail-label">Địa chỉ:</span><span class="detail-value">${order.shipping_address?.line1||''} ${order.shipping_address?.line2||''}, ${order.shipping_address?.city||''}</span></div>
+                    </div>
+                    <div class="detail-group">
+                        <h3>Tổng quan thanh toán</h3>
+                        <div class="detail-item"><span class="detail-label">Tổng tiền hàng:</span><span class="detail-value">${formatPrice(order.subtotal||0)}</span></div>
+                        <div class="detail-item"><span class="detail-label">Phí vận chuyển:</span><span class="detail-value">${formatPrice(order.shipping_fee||0)}</span></div>
+                        <div class="detail-item"><span class="detail-label">Giảm giá:</span><span class="detail-value">-${formatPrice(order.discount||0)}</span></div>
+                        <div class="detail-item" style="margin-top:10px;padding-top:10px;border-top:1px solid #ddd;"><span class="detail-label">Tổng thanh toán:</span><span class="detail-value" style="color:#e74c3c;font-size:18px;">${formatPrice(order.total_amount||0)}</span></div>
+                    </div>
+                </div>
+                <div class="order-products"><h3>Sản phẩm</h3>${itemsHtml}</div>
+                <div class="order-timeline"><h3>Lịch sử đơn hàng</h3>${historyHtml}</div>
+            `;
+
+            modal.style.display = 'block';
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
 
-        function exportOrders() {
-            alert('Tính năng xuất Excel sẽ sớm được cập nhật!');
-        }
-
-        function printOrders() {
-            alert('Tính năng in đơn hàng sẽ sớm được cập nhật!');
-        }
-
         function printOrder(orderId) {
             alert(`Đang chuẩn bị in đơn hàng #${orderId}`);
+        }
+
+        function exportOrders() {
+            // export current filtered table to CSV
+            const rows = document.querySelectorAll('#ordersTbody tr');
+            if (!rows.length) return alert('Không có đơn hàng để xuất');
+            const csv = ['"Mã đơn","Khách hàng","Ngày đặt","Tổng tiền","Thanh toán","Trạng thái"'];
+            rows.forEach(r => {
+                const cells = r.querySelectorAll('td');
+                const vals = Array.from(cells).slice(0,6).map(c => '"' + c.textContent.replace(/"/g,'""').trim() + '"');
+                csv.push(vals.join(','));
+            });
+            const blob = new Blob([csv.join('\n')], {type: 'text/csv;charset=utf-8;'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'orders_export.csv';
+            document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+        }
+
+        // Edit order modal
+        function editOrder(orderId) {
+            const order = ORDERS.find(o => o.id === orderId);
+            if (!order) return alert('Không tìm thấy đơn hàng');
+
+            document.getElementById('editOrderId').value = orderId;
+            document.getElementById('editOrderStatus').value = order.status;
+            document.getElementById('editOrderNote').value = '';
+
+            document.getElementById('editOrderModal').style.display = 'block';
+        }
+
+        // Handle edit order form submit
+        async function handleEditOrderSubmit(event) {
+            event.preventDefault();
+            const orderId = document.getElementById('editOrderId').value;
+            const newStatus = document.getElementById('editOrderStatus').value;
+            const note = document.getElementById('editOrderNote').value;
+
+            try {
+                // Try to update via API first
+                const res = await fetch(`/api/orders/${orderId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        status: newStatus, 
+                        note: note 
+                    })
+                });
+
+                if (!res.ok) throw new Error('API request failed');
+
+                // Update local data
+                const orderIndex = ORDERS.findIndex(o => o.id === orderId);
+                if (orderIndex !== -1) {
+                    ORDERS[orderIndex].status = newStatus;
+                    ORDERS[orderIndex].history = ORDERS[orderIndex].history || [];
+                    ORDERS[orderIndex].history.push({
+                        time: new Date().toISOString(),
+                        status: newStatus,
+                        desc: note || `Trạng thái đơn hàng đã được cập nhật thành ${newStatus}`
+                    });
+                }
+
+                // Update display
+                renderOrders(ORDERS);
+                closeModal('editOrderModal');
+                showToast('success', 'Cập nhật đơn hàng thành công!');
+                
+                // Track action
+                APP_ANALYTICS.trackAdminAction('edit_order', {
+                    orderId,
+                    newStatus,
+                    hasNote: !!note
+                });
+
+            } catch (err) {
+                console.error('Error updating order:', err);
+                showToast('error', 'Không thể cập nhật đơn hàng. Vui lòng thử lại sau.');
+            }
+        }
+
+        // Cancel order
+        async function cancelOrder(orderId) {
+            const order = ORDERS.find(o => o.id === orderId);
+            if (!order) return alert('Không tìm thấy đơn hàng');
+            
+            if (order.status === 'cancelled') {
+                return alert('Đơn hàng đã được hủy trước đó');
+            }
+
+            if (!confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?')) {
+                return;
+            }
+
+            try {
+                // Try API first
+                const res = await fetch(`/api/orders/${orderId}/cancel`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (!res.ok) throw new Error('API request failed');
+
+                // Update local data
+                const orderIndex = ORDERS.findIndex(o => o.id === orderId);
+                if (orderIndex !== -1) {
+                    ORDERS[orderIndex].status = 'cancelled';
+                    ORDERS[orderIndex].history = ORDERS[orderIndex].history || [];
+                    ORDERS[orderIndex].history.push({
+                        time: new Date().toISOString(),
+                        status: 'cancelled',
+                        desc: 'Đơn hàng đã bị hủy bởi admin'
+                    });
+                }
+
+                // Update display
+                renderOrders(ORDERS);
+                showToast('success', 'Đã hủy đơn hàng thành công');
+                
+                // Track action
+                APP_ANALYTICS.trackAdminAction('cancel_order', { orderId });
+
+            } catch (err) {
+                console.error('Error cancelling order:', err);
+                showToast('error', 'Không thể hủy đơn hàng. Vui lòng thử lại sau.');
+            }
+        }
+
+        // Show toast notification
+        function showToast(type, message) {
+            // Remove existing toasts
+            document.querySelectorAll('.toast').forEach(t => t.remove());
+
+            // Create new toast
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(toast);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
         }
 
         // Close modal when clicking outside
@@ -826,26 +1198,36 @@
             }
         }
 
-        // Filter handling
-        document.querySelectorAll('.filter-group select, .filter-group input').forEach(filter => {
-            filter.addEventListener('change', function() {
-                // Here you would normally filter the orders list based on selected values
-                console.log('Filter changed:', this.id, this.value);
-            });
-        });
-
-        // Initialize analytics
+        // Load orders and wire filters
         document.addEventListener('DOMContentLoaded', function() {
             APP_ANALYTICS.trackPageView('Admin Orders', window.location.pathname);
 
-            // Track order management actions
-            document.querySelectorAll('.order-status').forEach(status => {
-                status.addEventListener('click', function() {
-                    APP_ANALYTICS.trackAdminAction('update_order_status', {
-                        orderId: this.closest('tr').querySelector('td:first-child').textContent,
-                        newStatus: this.textContent
-                    });
-                });
+            // Try API first (when server is running), otherwise fall back to static JSON
+            (async function loadOrders(){
+                try {
+                    const res = await fetch('/api/orders');
+                    if (res.ok) {
+                        const data = await res.json();
+                        ORDERS = data.orders || [];
+                        renderOrders(ORDERS);
+                        return;
+                    }
+                    throw new Error('API returned ' + res.status);
+                } catch (err) {
+                    console.warn('API orders not available, falling back to data/orders.json', err);
+                    try {
+                        const r2 = await fetch('../data/orders.json');
+                        const data2 = await r2.json();
+                        ORDERS = data2.orders || [];
+                        renderOrders(ORDERS);
+                    } catch (err2) {
+                        console.error('Could not load fallback orders.json', err2);
+                    }
+                }
+            })();
+
+            document.querySelectorAll('.filter-group select, .filter-group input').forEach(filter => {
+                filter.addEventListener('change', applyFilters);
             });
         });
     </script>

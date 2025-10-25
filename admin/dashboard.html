@@ -6,7 +6,7 @@
     <title>Admin Dashboard - IVY moda</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <script src="../js/analytics.js"></script>
+    <script src="../js/auth.js"></script>
     <style>
         .admin-container {
             display: flex;
@@ -390,16 +390,16 @@
             </div>
 
             <ul class="admin-menu">
-                <li><a href="#" class="active"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
-                <li><a href="#products"><i class="fas fa-box"></i><span>Sản phẩm</span></a></li>
-                <li><a href="#orders"><i class="fas fa-shopping-cart"></i><span>Đơn hàng</span></a></li>
-                <li><a href="#customers"><i class="fas fa-users"></i><span>Khách hàng</span></a></li>
-                <li><a href="#inventory"><i class="fas fa-warehouse"></i><span>Kho hàng</span></a></li>
-                <li><a href="#categories"><i class="fas fa-tags"></i><span>Danh mục</span></a></li>
-                <li><a href="#marketing"><i class="fas fa-bullhorn"></i><span>Marketing</span></a></li>
-                <li><a href="#reports"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a></li>
-                <li><a href="#settings"><i class="fas fa-cog"></i><span>Cài đặt</span></a></li>
-                <li><a href="../" onclick="return confirm('Bạn có chắc muốn đăng xuất?')">
+                <li><a href="dashboard.html" class="active"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i><span>Sản phẩm</span></a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-cart"></i><span>Đơn hàng</span></a></li>
+                <li><a href="users.html"><i class="fas fa-users"></i><span>Khách hàng</span></a></li>
+                <li><a href="inventory.html"><i class="fas fa-warehouse"></i><span>Kho hàng</span></a></li>
+                <li><a href="categories.html"><i class="fas fa-tags"></i><span>Danh mục</span></a></li>
+                <li><a href="marketing.html"><i class="fas fa-bullhorn"></i><span>Marketing</span></a></li>
+                <li><a href="reports.html"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i><span>Cài đặt</span></a></li>
+                <li><a href="../" onclick="if(!confirm('Bạn có chắc muốn đăng xuất?')) return false; localStorage.removeItem('isAdmin'); localStorage.removeItem('adminUser');">
                     <i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span>
                 </a></li>
             </ul>
@@ -575,63 +575,95 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Initialize revenue chart
-        const ctx = document.getElementById('revenueChart').getContext('2d');
-        const revenueChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
-                datasets: [{
-                    label: 'Doanh thu (triệu VNĐ)',
-                    data: [2.1, 2.8, 2.3, 3.5, 2.9, 4.2, 3.8],
-                    borderColor: '#3498db',
-                    tension: 0.4,
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                height: 300,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            display: true,
-                            color: '#f0f0f0'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
+        // Kiểm tra quyền admin khi trang được tải
+        if (!checkAdminAccess()) {
+            window.location.href = '../index.html';
+        }
+
+        // Cập nhật email admin khi trang được tải
+        document.addEventListener('DOMContentLoaded', function() {
+            const adminUser = JSON.parse(localStorage.getItem('adminUser') || '{}');
+            if (adminUser.email) {
+                document.querySelector('.admin-user span').textContent = adminUser.email;
             }
         });
 
-        // Update chart based on time range
-        document.getElementById('timeRange').addEventListener('change', function(e) {
-            // Here you would normally fetch data from your backend based on the selected range
-            // For demo purposes, we'll just update with random data
-            const dataPoints = e.target.value === '7d' ? 7 : 
-                            e.target.value === '30d' ? 30 : 
-                            e.target.value === '90d' ? 90 : 365;
-            
-            const newData = Array(dataPoints).fill(0).map(() => Math.random() * 5 + 1);
-            const newLabels = Array(dataPoints).fill(0).map((_, i) => `Day ${i + 1}`);
-            
-            revenueChart.data.labels = newLabels;
-            revenueChart.data.datasets[0].data = newData;
-            revenueChart.update();
-        });
+        // Lazy-load Chart.js and initialize chart after idle (to avoid blocking render)
+        function loadScript(src, cb) {
+            const s = document.createElement('script');
+            s.src = src;
+            s.async = true;
+            s.onload = cb;
+            s.onerror = function(){ console.error('Failed to load', src); cb && cb(new Error('load error')); };
+            document.head.appendChild(s);
+        }
+
+        // Generate random-ish data but cap points to a reasonable amount for performance
+        function generateDataPoints(n) {
+            const MAX_POINTS = 90; // keep chart performant
+            if (n <= MAX_POINTS) {
+                return Array.from({length: n}, () => +(Math.random() * 5 + 1).toFixed(2));
+            }
+            // compress by grouping into MAX_POINTS buckets
+            const bucketSize = Math.ceil(n / MAX_POINTS);
+            const result = [];
+            for (let i = 0; i < MAX_POINTS; i++) {
+                const start = i * bucketSize;
+                const bucketCount = Math.min(bucketSize, Math.max(0, n - start));
+                if (bucketCount <= 0) break;
+                let sum = 0;
+                for (let j = 0; j < bucketCount; j++) sum += Math.random() * 5 + 1;
+                result.push(+(sum / bucketCount).toFixed(2));
+            }
+            return result;
+        }
+
+        // Debounce helper
+        function debounce(fn, wait) {
+            let t;
+            return function(...args){ clearTimeout(t); t = setTimeout(()=>fn.apply(this,args), wait); };
+        }
+
+        let revenueChart = null;
+        function initRevenueChart() {
+            const canvas = document.getElementById('revenueChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            // initial small dataset
+            const labels = ['T2','T3','T4','T5','T6','T7','CN'];
+            const data = [2.1,2.8,2.3,3.5,2.9,4.2,3.8];
+            revenueChart = new Chart(ctx, {
+                type: 'line',
+                data: { labels, datasets:[{ label: 'Doanh thu (triệu VNĐ)', data, borderColor:'#3498db', tension:0.4, fill:false }] },
+                options: {
+                    responsive:true, maintainAspectRatio:false,
+                    plugins:{ legend:{ display:false } },
+                    scales:{ y:{ beginAtZero:true, grid:{ color:'#f0f0f0' } }, x:{ grid:{ display:false } } }
+                }
+            });
+
+            const timeRangeEl = document.getElementById('timeRange');
+            const updateChart = debounce(function(value){
+                const dataPoints = value === '7d' ? 7 : value === '30d' ? 30 : value === '90d' ? 90 : 365;
+                const newData = generateDataPoints(dataPoints);
+                const newLabels = newData.map((_, i) => `Day ${i+1}`);
+                revenueChart.data.labels = newLabels;
+                revenueChart.data.datasets[0].data = newData;
+                revenueChart.update();
+            }, 150);
+
+            timeRangeEl.addEventListener('change', function(e){ updateChart(e.target.value); });
+        }
+
+        // Load Chart.js on idle (if available) or after slight timeout
+        (function(){
+            const start = function(){
+                if (window.Chart) { initRevenueChart(); return; }
+                loadScript('https://cdn.jsdelivr.net/npm/chart.js', function(err){ if (err) return; initRevenueChart(); });
+            };
+            if ('requestIdleCallback' in window) requestIdleCallback(start, {timeout:1000}); else setTimeout(start, 600);
+        })();
 
         // Modal functions
         function openAddOrderModal() {
@@ -678,23 +710,35 @@
             alert('Đơn hàng đã được lưu!');
         });
 
-        // Track admin actions with analytics
+        // Safe analytics calls (only if analytics is available)
         document.addEventListener('DOMContentLoaded', function() {
-            APP_ANALYTICS.trackPageView('Admin Dashboard', window.location.pathname);
+            if (window.APP_ANALYTICS && typeof APP_ANALYTICS.trackPageView === 'function') {
+                APP_ANALYTICS.trackPageView('Admin Dashboard', window.location.pathname);
+            }
 
-            // Track order actions
-            document.getElementById('orderForm').addEventListener('submit', function(e) {
-                const formData = new FormData(e.target);
-                APP_ANALYTICS.trackOrderAction('create', {
-                    customerName: formData.get('customerName'),
-                    amount: formData.get('orderAmount')
+            // Track order actions if analytics available
+            const orderForm = document.getElementById('orderForm');
+            if (orderForm) {
+                orderForm.addEventListener('submit', function(e) {
+                    if (window.APP_ANALYTICS && typeof APP_ANALYTICS.trackOrderAction === 'function') {
+                        const formData = new FormData(e.target);
+                        APP_ANALYTICS.trackOrderAction('create', {
+                            customerName: formData.get('customerName'),
+                            amount: formData.get('orderAmount')
+                        });
+                    }
                 });
-            });
+            }
 
-            // Track exports
-            document.querySelector('.grid-btn[onclick="exportOrders()"]').addEventListener('click', function() {
-                APP_ANALYTICS.trackAdminAction('export_orders');
-            });
+            // Track exports if analytics available
+            const exportBtn = document.querySelector('.grid-btn[onclick="exportOrders()"]');
+            if (exportBtn) {
+                exportBtn.addEventListener('click', function() {
+                    if (window.APP_ANALYTICS && typeof APP_ANALYTICS.trackAdminAction === 'function') {
+                        APP_ANALYTICS.trackAdminAction('export_orders');
+                    }
+                });
+            }
         });
     </script>
 </body>

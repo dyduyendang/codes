@@ -69,12 +69,12 @@
         <div class="container">
             <div class="products-grid">
                 <!-- Product Cards -->
-                <article class="product-card" data-url="/products/ao-so-mi-nam-1">
+                <article class="product-card" data-id="men-ao1">
                     <div class="product-image">
                         <span class="badge">NEW</span>
                         <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
-                        <a class="product-link" href="/products/ao-so-mi-nam-1">
-                            <img src="../images/slider3.jpg" alt="Áo Sơ Mi Nam Công Sở">
+                        <a class="product-link" href="../product.html?id=men-ao1">
+                            <img src="../images/Nam/ao/slider4.jpg" alt="Áo Sơ Mi Nam Công Sở">
                         </a>
                         <button class="cart-btn" aria-label="Thêm vào giỏ"><i class="fas fa-shopping-bag"></i></button>
                     </div>
@@ -84,9 +84,9 @@
                             <span class="dot" style="background:#333"></span>
                         </div>
                         <h3 class="product-title">
-                            <a href="/products/ao-so-mi-nam-1">Áo Sơ Mi Nam Công Sở</a>
+                            <a href="../product.html?id=men-ao1">Áo Sơ Mi Nam Công Sở</a>
                         </h3>
-                        <div class="product-price">590.000₫</div>
+                        <div class="product-price">550.000₫</div>
                     </div>
                 </article>
 
@@ -120,9 +120,11 @@
         // Wire up product card clicks
         document.querySelectorAll('.product-card').forEach(card => {
             card.addEventListener('click', e => {
-                if (e.target.closest('.cart-btn')) return;
-                const url = card.dataset.url;
-                if (url) window.location.href = url;
+                if (e.target.closest('.cart-btn') || e.target.closest('.wish-btn')) return;
+                const productId = card.dataset.id;
+                if (productId) {
+                    window.location.href = `../product.html?id=${productId}`;
+                }
             });
         });
 
