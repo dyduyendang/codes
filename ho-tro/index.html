@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hỗ Trợ Khách Hàng - IVY moda</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .support-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .support-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .support-header h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .support-header p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .contact-card {
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-card i {
+            font-size: 40px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .contact-card h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .contact-card p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #333;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .contact-btn:hover {
+            background: #000;
+        }
+
+        .faq-section {
+            margin-bottom: 60px;
+        }
+
+        .faq-section h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+        }
+
+        .faq-question {
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: #f9f9f9;
+        }
+
+        .faq-question h3 {
+            font-size: 16px;
+            color: #333;
+            margin: 0;
+        }
+
+        .faq-answer {
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 0 0 8px 8px;
+            margin-top: 2px;
+            display: none;
+        }
+
+        .faq-answer p {
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .faq-item.active .faq-question {
+            background: #333;
+            color: white;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #333;
+            outline: none;
+        }
+
+        .form-submit {
+            padding: 12px 30px;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .form-submit:hover {
+            background: #000;
+        }
+
+        .chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .chat-widget:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-widget i {
+            font-size: 24px;
+            color: #4CAF50;
+        }
+
+        @media (max-width: 768px) {
+            .contact-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Copy header from index.html -->
+    </header>
+
+    <main>
+        <section class="support-section">
+            <div class="support-header">
+                <h1>Hỗ trợ khách hàng</h1>
+                <p>Chúng tôi luôn sẵn sàng hỗ trợ bạn qua nhiều kênh khác nhau</p>
+            </div>
+
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Hotline</h3>
+                    <p>Gọi cho chúng tôi 24/7 để được hỗ trợ ngay</p>
+                    <a href="tel:0123456789" class="contact-btn">0123 456 789</a>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email</h3>
+                    <p>Gửi email cho chúng tôi và nhận phản hồi trong 24h</p>
+                    <a href="mailto:support@ivymoda.vn" class="contact-btn">Gửi email</a>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-comments"></i>
+                    <h3>Live Chat</h3>
+                    <p>Chat trực tiếp với nhân viên CSKH</p>
+                    <button class="contact-btn" onclick="openChat()">Bắt đầu chat</button>
+                </div>
+            </div>
+
+            <div class="faq-section">
+                <h2>Câu hỏi thường gặp</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Làm thế nào để theo dõi đơn hàng?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Bạn có thể theo dõi đơn hàng bằng cách:</p>
+                        <ul>
+                            <li>Đăng nhập vào tài khoản và xem trong mục "Đơn hàng của tôi"</li>
+                            <li>Sử dụng mã đơn hàng được gửi qua email</li>
+                            <li>Liên hệ hotline để được hỗ trợ</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Chính sách đổi trả như thế nào?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>IVY moda áp dụng chính sách đổi trả trong vòng 30 ngày với các điều kiện:</p>
+                        <ul>
+                            <li>Sản phẩm còn nguyên tem mác</li>
+                            <li>Không có dấu hiệu đã qua sử dụng</li>
+                            <li>Có hóa đơn mua hàng</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Thêm các FAQ khác -->
+            </div>
+
+            <div class="contact-form">
+                <h2>Gửi yêu cầu hỗ trợ</h2>
+                <form id="supportForm" onsubmit="submitSupportForm(event)">
+                    <div class="form-group">
+                        <label for="name">Họ tên</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Chủ đề</label>
+                        <input type="text" id="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Nội dung</label>
+                        <textarea id="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Gửi yêu cầu</button>
+                </form>
+            </div>
+        </section>
+
+        <div class="chat-widget" onclick="openChat()">
+            <i class="fas fa-comments"></i>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Copy footer from index.html -->
+    </footer>
+
+    <script src="../app.js"></script>
+    <script>
+        // Handle FAQ toggles
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasActive = item.classList.contains('active');
+                
+                // Close all FAQs
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                
+                // Toggle clicked FAQ
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Handle support form submission
+        function submitSupportForm(event) {
+            event.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+
+            // Here you would normally send this data to your server
+            console.log('Support request:', formData);
+            
+            alert('Cảm ơn bạn đã gửi yêu cầu. Chúng tôi sẽ phản hồi trong thời gian sớm nhất!');
+            event.target.reset();
+        }
+
+        // Open chat widget
+        function openChat() {
+            // Implement chat widget opening logic here
+            alert('Chat widget will open here');
+        }
+    </script>
+</body>
+</html>

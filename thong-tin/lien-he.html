@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên hệ | IVY moda</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .contact-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .contact-header h1 {
+            font-size: 32px;
+            color: #221f20;
+            margin-bottom: 20px;
+        }
+
+        .contact-header p {
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .contact-info-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .info-group {
+            margin-bottom: 30px;
+        }
+
+        .info-group h3 {
+            font-size: 18px;
+            color: #221f20;
+            margin-bottom: 15px;
+        }
+
+        .info-group p {
+            color: #666;
+            line-height: 1.8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .info-group i {
+            color: #221f20;
+            width: 20px;
+            text-align: center;
+        }
+
+        .contact-form {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #221f20;
+            outline: none;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: #221f20;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #000;
+        }
+
+        .store-locator {
+            margin-top: 60px;
+        }
+
+        .store-locator h2 {
+            text-align: center;
+            font-size: 24px;
+            color: #221f20;
+            margin-bottom: 30px;
+        }
+
+        .map-container {
+            height: 400px;
+            background: #f8f8f8;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .working-hours {
+            margin-top: 15px;
+        }
+
+        .working-hours h4 {
+            color: #221f20;
+            margin-bottom: 10px;
+        }
+
+        .working-hours p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .social-links-contact {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links-contact a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f8f8f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-links-contact a:hover {
+            background: #221f20;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/"><img src="../images/logo.png" alt="IVY moda"></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="contact-container">
+            <div class="contact-header">
+                <h1>Liên hệ với chúng tôi</h1>
+                <p>Chúng tôi luôn sẵn sàng lắng nghe ý kiến và hỗ trợ bạn. Hãy liên hệ với chúng tôi qua các kênh sau:</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info-card">
+                    <div class="info-group">
+                        <h3>Thông tin liên hệ</h3>
+                        <p><i class="fas fa-phone"></i> Hotline: 0123 456 789</p>
+                        <p><i class="fas fa-envelope"></i> Email: cs@ivymoda.vn</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Tầng 12, Tòa nhà IVY, Số 123 Nguyễn Trãi, Thanh Xuân, Hà Nội</p>
+                    </div>
+
+                    <div class="info-group">
+                        <h3>Thời gian làm việc</h3>
+                        <div class="working-hours">
+                            <p>Thứ 2 - Thứ 6: 8:30 - 17:30</p>
+                            <p>Thứ 7: 8:30 - 12:00</p>
+                            <p>Chủ nhật: Nghỉ</p>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <h3>Kết nối với chúng tôi</h3>
+                        <div class="social-links-contact">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <form id="contactForm" onsubmit="return handleSubmit(event)">
+                        <div class="form-group">
+                            <label for="name">Họ và tên</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Chủ đề</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Chọn chủ đề</option>
+                                <option value="support">Hỗ trợ khách hàng</option>
+                                <option value="product">Thông tin sản phẩm</option>
+                                <option value="order">Đơn hàng</option>
+                                <option value="complaint">Khiếu nại</option>
+                                <option value="other">Khác</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Nội dung</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Gửi tin nhắn</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="store-locator">
+                <h2>Hệ thống cửa hàng</h2>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.6963477727726!2d105.84772067497875!3d21.007025288673206!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac428c3336e5%3A0xe234e0f5c0c41d!2zQ8O0bmcgdmnDqm4gVGjhu5FuZyBOaOG6pXQ!5e0!3m2!1svi!2s!4v1690276026644!5m2!1svi!2s" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Về IVY moda</h3>
+                <ul>
+                    <li><a href="ve-chung-toi.html">Giới thiệu</a></li>
+                    <li><a href="lien-he.html">Liên hệ</a></li>
+                    <li><a href="#">Tuyển dụng</a></li>
+                    <li><a href="#">Tin tức</a></li>
+                    <li><a href="#">Hệ thống cửa hàng</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Hỗ trợ khách hàng</h3>
+                <ul>
+                    <li><a href="#">Hướng dẫn chọn size</a></li>
+                    <li><a href="#">Chính sách khách hàng VIP</a></li>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Thanh toán, giao nhận</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Liên hệ</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> Hotline: 0123 456 789</p>
+                    <p><i class="fas fa-envelope"></i> Email: cs@ivymoda.vn</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Tầng 12, Tòa nhà IVY, Số 123 Nguyễn Trãi, Thanh Xuân, Hà Nội</p>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Đăng ký nhận tin</h3>
+                <p style="color: #999; margin-bottom: 15px">Nhận thông tin sản phẩm mới nhất, tin khuyến mãi và nhiều hơn nữa.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Email của bạn" required>
+                    <button type="submit">Đăng ký</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 IVY moda All rights reserved</p>
+            <div class="payment-methods">
+                <img src="../images/payment/visa.png" alt="Visa">
+                <img src="../images/payment/mastercard.png" alt="Mastercard">
+                <img src="../images/payment/jcb.png" alt="JCB">
+                <img src="../images/payment/momo.png" alt="Momo">
+                <img src="../images/payment/vnpay.png" alt="VNPay">
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            // Lấy thông tin form
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+
+            // Validate số điện thoại
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phoneRegex.test(formData.phone)) {
+                alert('Vui lòng nhập số điện thoại hợp lệ (10 số)');
+                return false;
+            }
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(formData.email)) {
+                alert('Vui lòng nhập email hợp lệ');
+                return false;
+            }
+
+            // Mô phỏng gửi form
+            console.log('Sending form data:', formData);
+            alert('Cảm ơn bạn đã liên hệ với chúng tôi. Chúng tôi sẽ phản hồi trong thời gian sớm nhất!');
+            
+            // Reset form
+            document.getElementById('contactForm').reset();
+            return false;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài Khoản - IVY moda</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .account-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+        }
+
+        .account-sidebar {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .user-info {
+            text-align: center;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .user-name {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .user-email {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .account-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .account-menu li {
+            margin-bottom: 10px;
+        }
+
+        .account-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .account-menu a:hover,
+        .account-menu a.active {
+            background: #f5f5f5;
+            color: #4CAF50;
+        }
+
+        .account-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .account-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .content-header h2 {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .save-btn {
+            padding: 12px 30px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .save-btn:hover {
+            background: #45a049;
+        }
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .orders-table th,
+        .orders-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .orders-table th {
+            background: #f5f5f5;
+        }
+
+        .order-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-delivered {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .address-card {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .address-card h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .address-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .address-btn {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            background: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .address-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .add-address {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #4CAF50;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .wishlist-item {
+            position: relative;
+        }
+
+        .wishlist-item img {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .remove-wish {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .remove-wish:hover {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        @media (max-width: 768px) {
+            .account-section {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Copy header from index.html -->
+    </header>
+
+    <main>
+        <section class="account-section">
+            <aside class="account-sidebar">
+                <div class="user-info">
+                    <img src="../images/avatar-default.jpg" alt="User Avatar" class="user-avatar">
+                    <div class="user-name">Nguyễn Văn A</div>
+                    <div class="user-email">nguyenvana@email.com</div>
+                </div>
+
+                <ul class="account-menu">
+                    <li><a href="#" class="active"><i class="fas fa-user"></i> Thông tin tài khoản</a></li>
+                    <li><a href="#"><i class="fas fa-shopping-bag"></i> Đơn hàng của tôi</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Sổ địa chỉ</a></li>
+                    <li><a href="#"><i class="fas fa-heart"></i> Sản phẩm yêu thích</a></li>
+                    <li><a href="#"><i class="fas fa-bell"></i> Thông báo</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Cài đặt</a></li>
+                    <li><a href="#" onclick="APP.logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+                </ul>
+            </aside>
+
+            <div class="account-content">
+                <!-- Profile Section -->
+                <div id="profile-section">
+                    <div class="content-header">
+                        <h2>Thông tin tài khoản</h2>
+                        <button class="save-btn" onclick="saveProfile()">Lưu thay đổi</button>
+                    </div>
+
+                    <form id="profile-form" class="form-grid">
+                        <div class="form-group">
+                            <label for="firstName">Họ</label>
+                            <input type="text" id="firstName" value="Nguyễn">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Tên</label>
+                            <input type="text" id="lastName" value="Văn A">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" value="nguyenvana@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại</label>
+                            <input type="tel" id="phone" value="0123456789">
+                        </div>
+                        <div class="form-group">
+                            <label for="birthdate">Ngày sinh</label>
+                            <input type="date" id="birthdate">
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Giới tính</label>
+                            <select id="gender">
+                                <option value="male">Nam</option>
+                                <option value="female">Nữ</option>
+                                <option value="other">Khác</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Orders Section -->
+                <div id="orders-section" style="display: none;">
+                    <div class="content-header">
+                        <h2>Đơn hàng của tôi</h2>
+                    </div>
+
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn hàng</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#ORD001</td>
+                                <td>25/10/2025</td>
+                                <td>1.590.000₫</td>
+                                <td><span class="order-status status-delivered">Đã giao</span></td>
+                                <td><a href="#">Xem chi tiết</a></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD002</td>
+                                <td>24/10/2025</td>
+                                <td>790.000₫</td>
+                                <td><span class="order-status status-pending">Đang giao</span></td>
+                                <td><a href="#">Xem chi tiết</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Addresses Section -->
+                <div id="addresses-section" style="display: none;">
+                    <div class="content-header">
+                        <h2>Sổ địa chỉ</h2>
+                    </div>
+
+                    <div class="address-card">
+                        <h3>Nhà riêng</h3>
+                        <p>Nguyễn Văn A</p>
+                        <p>0123456789</p>
+                        <p>123 Đường ABC, Quận 1, TP.HCM</p>
+                        <div class="address-actions">
+                            <button class="address-btn">Sửa</button>
+                            <button class="address-btn">Xóa</button>
+                        </div>
+                    </div>
+
+                    <div class="add-address">
+                        <i class="fas fa-plus"></i>
+                        Thêm địa chỉ mới
+                    </div>
+                </div>
+
+                <!-- Wishlist Section -->
+                <div id="wishlist-section" style="display: none;">
+                    <div class="content-header">
+                        <h2>Sản phẩm yêu thích</h2>
+                    </div>
+
+                    <div class="wishlist-grid">
+                        <div class="wishlist-item">
+                            <img src="../images/slider1.jpg" alt="Product">
+                            <button class="remove-wish"><i class="fas fa-times"></i></button>
+                            <div class="item-info">
+                                <h3>Đầm Xòe Elegant</h3>
+                                <p>1.590.000₫</p>
+                            </div>
+                        </div>
+                        <!-- More wishlist items -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <!-- Copy footer from index.html -->
+    </footer>
+
+    <script src="../app.js"></script>
+    <script>
+        // Handle menu navigation
+        document.querySelectorAll('.account-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.getAttribute('onclick')) return; // Skip for logout link
+                
+                e.preventDefault();
+                
+                // Update active state
+                document.querySelectorAll('.account-menu a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+
+                // Show corresponding section
+                const sectionId = this.textContent.trim().toLowerCase().replace(/\s+/g, '-') + '-section';
+                document.querySelectorAll('.account-content > div').forEach(section => {
+                    section.style.display = section.id === sectionId ? 'block' : 'none';
+                });
+            });
+        });
+
+        // Save profile changes
+        function saveProfile() {
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                birthdate: document.getElementById('birthdate').value,
+                gender: document.getElementById('gender').value
+            };
+
+            // Here you would normally send this data to your server
+            console.log('Profile data:', formData);
+            
+            alert('Thông tin đã được cập nhật!');
+        }
+
+        // Initialize current user data
+        function initializeProfile() {
+            const user = APP.currentUser();
+            if (user) {
+                document.querySelector('.user-name').textContent = user.firstName + ' ' + user.lastName;
+                document.querySelector('.user-email').textContent = user.email;
+                document.getElementById('firstName').value = user.firstName;
+                document.getElementById('lastName').value = user.lastName;
+                document.getElementById('email').value = user.email;
+                document.getElementById('phone').value = user.phone || '';
+            } else {
+                window.location.href = '../login.html';
+            }
+        }
+
+        // Check login status
+        initializeProfile();
+    </script>
+</body>
+</html>

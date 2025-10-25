@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Quản trị - Người dùng | IVY moda</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    .admin-container{max-width:1000px;margin:40px auto;padding:0 20px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border:1px solid #eee;text-align:left}
+    th{background:#fafafa}
+    .btn{padding:6px 10px;border-radius:4px;border:none;cursor:pointer}
+    .btn-danger{background:#e74c3c;color:white}
+    header{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;background:white;box-shadow:0 2px 5px rgba(0,0,0,0.05)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo"><a href="/"><img src="../images/logo.png" alt="IVY moda"></a></div>
+    <div style="display:flex;gap:12px;align-items:center"><div class="user-area"></div><a href="../cart.html" class="cart-icon"><i class="fas fa-shopping-bag"></i><span class="cart-count-badge">0</span></a></div>
+  </header>
+
+  <main class="admin-container">
+    <h1>Quản trị - Người dùng</h1>
+    <p>Danh sách người dùng lưu trong localStorage</p>
+    <table id="usersTable">
+      <thead><tr><th>ID</th><th>Họ</th><th>Tên</th><th>Email</th><th>Điện thoại</th><th>Hành động</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <script src="../app.js"></script>
+  <script>
+    (function(){
+      function render(){
+        const tbody = document.querySelector('#usersTable tbody');
+        const users = APP.getUsers();
+        tbody.innerHTML = '';
+        if(!users || users.length===0){ tbody.innerHTML = '<tr><td colspan="6">Chưa có user nào</td></tr>'; return; }
+        users.forEach(u=>{
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${u.id}</td><td>${u.firstName||''}</td><td>${u.lastName||''}</td><td>${u.email||''}</td><td>${u.phone||''}</td><td><button class="btn btn-danger" data-id="${u.id}">Xóa</button></td>`;
+          tbody.appendChild(tr);
+        });
+        tbody.querySelectorAll('.btn-danger').forEach(b=>{
+          b.addEventListener('click', function(){
+            if(confirm('Xóa user này?')){
+              APP.deleteUser(parseInt(this.dataset.id));
+              render();
+            }
+          });
+        });
+      }
+      render();
+    })();
+  </script>
+</body>
+</html>

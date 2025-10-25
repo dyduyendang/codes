@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập | IVY moda</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* User menu styles */
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-menu-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            min-width: 200px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .user-menu-content.show {
+            display: block;
+        }
+
+        .user-menu-content a {
+            display: block;
+            padding: 8px 20px;
+            color: #666;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .user-menu-content a:hover {
+            background-color: #f5f5f5;
+            color: #221f20;
+        }
+
+        .user-menu-content .divider {
+            height: 1px;
+            background: #eee;
+            margin: 5px 0;
+        }
+
+        .user-icon {
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-icon i {
+            font-size: 20px;
+            color: #221f20;
+        }
+
+        .auth-container {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-header h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #221f20;
+            outline: none;
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 14px;
+            background-color: #221f20;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .auth-button:hover {
+            background-color: #000;
+        }
+
+        .auth-links {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .auth-links a {
+            color: #666;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .auth-links a:hover {
+            color: #221f20;
+            text-decoration: underline;
+        }
+
+        .social-login {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .social-login p {
+            color: #666;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .social-login p::before,
+        .social-login p::after {
+            content: "";
+            display: inline-block;
+            width: 100px;
+            height: 1px;
+            background: #ddd;
+            margin: 0 10px;
+            vertical-align: middle;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .social-button:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-2px);
+        }
+
+        .social-button i {
+            font-size: 20px;
+            color: #666;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/"><img src="images/logo.png" alt="IVY moda"></a>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+            <div class="user-area"></div>
+            <a href="cart.html" class="cart-icon" title="Giỏ hàng">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count-badge" style="background:#ff4d4f;color:white;border-radius:50%;padding:2px 7px;margin-left:6px;font-size:12px;">0</span>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="auth-container">
+            <div class="auth-header">
+                <h1>Đăng nhập</h1>
+                <p>Đăng nhập để theo dõi đơn hàng, lưu danh sách sản phẩm yêu thích và nhận nhiều ưu đãi hấp dẫn</p>
+            </div>
+
+            <form id="loginForm" onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error-message" id="emailError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" name="password" required>
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+
+                <button type="submit" class="auth-button">Đăng nhập</button>
+
+                <div class="auth-links">
+                    <a href="#" onclick="forgotPassword()">Quên mật khẩu?</a>
+                    <a href="register.html">Đăng ký tài khoản mới</a>
+                </div>
+
+                <div class="social-login">
+                    <p>Hoặc đăng nhập bằng</p>
+                    <div class="social-buttons">
+                        <button type="button" class="social-button" onclick="socialLogin('facebook')">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+                        <button type="button" class="social-button" onclick="socialLogin('google')">
+                            <i class="fab fa-google"></i>
+                        </button>
+                        <button type="button" class="social-button" onclick="socialLogin('apple')">
+                            <i class="fab fa-apple"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        async function handleLogin(event) {
+            event.preventDefault();
+            document.querySelectorAll('.error-message').forEach(el => { el.style.display = 'none'; el.textContent = ''; });
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const submitBtn = document.querySelector('#loginForm .auth-button');
+            if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                document.getElementById('emailError').textContent = 'Email không hợp lệ';
+                document.getElementById('emailError').style.display = 'block';
+                return false;
+            }
+            if (password.length < 6) {
+                document.getElementById('passwordError').textContent = 'Mật khẩu phải có ít nhất 6 ký tự';
+                document.getElementById('passwordError').style.display = 'block';
+                return false;
+            }
+
+            // disable submit
+            if(submitBtn){ submitBtn.disabled = true; submitBtn.dataset.orig = submitBtn.innerHTML; submitBtn.innerHTML = 'Đang đăng nhập...'; }
+            try{
+                const res = await APP.loginUserAsync({email, password});
+                if (!res.ok) {
+                    document.getElementById('passwordError').textContent = res.message || 'Đăng nhập thất bại';
+                    document.getElementById('passwordError').style.display = 'block';
+                    return false;
+                }
+                // success
+                // re-render user area if present
+                if (window.renderUserArea) renderUserArea?.();
+                alert('Đăng nhập thành công, chuyển tới trang chủ');
+                window.location.href = 'index.html';
+            }catch(e){
+                document.getElementById('passwordError').textContent = 'Lỗi hệ thống. Vui lòng thử lại.';
+                document.getElementById('passwordError').style.display = 'block';
+            }finally{
+                if(submitBtn){ submitBtn.disabled = false; submitBtn.innerHTML = submitBtn.dataset.orig || 'Đăng nhập'; }
+            }
+            return false;
+        }
+
+        function socialLogin(platform) {
+            // Here you would implement social login logic
+            console.log(`Logging in with ${platform}`);
+            alert(`Đăng nhập bằng ${platform} (Chức năng đang phát triển)`);
+        }
+
+        function forgotPassword() {
+            // Implement forgot password logic
+            alert('Chức năng đặt lại mật khẩu đang được phát triển');
+        }
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>

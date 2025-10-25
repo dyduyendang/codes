@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Áo Nữ | IVY moda</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../gallery.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .category-header { text-align: center; padding: 40px 0 30px }
+        .category-header h1 { font-size: 32px; color: #111; margin-bottom: 10px }
+        .category-header p { color: #666; max-width: 600px; margin: 0 auto }
+        .filter-bar { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: #f8f8f8; margin-bottom: 30px }
+        .filter-options { display: flex; gap: 20px }
+        .filter-options select { padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px }
+        .sort-options { display: flex; gap: 10px; align-items: center }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/"><img src="../images/logo.png" alt="IVY moda"></a>
+        </div>
+        <div class="menu">
+            <li>
+                <a href="/nu">NỮ</a>
+                <ul class="sub-menu">
+                    <li><a href="/nu/ao">Áo</a></li>
+                    <li><a href="/nu/quan">Quần</a></li>
+                    <li><a href="/nu/vay">Váy</a></li>
+                    <li><a href="/nu/phu-kien">Phụ kiện</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/nam">NAM</a>
+                <ul class="sub-menu">
+                    <li><a href="/nam/ao">Áo</a></li>
+                    <li><a href="/nam/quan">Quần</a></li>
+                    <li><a href="/nam/giay">Giày</a></li>
+                    <li><a href="/nam/phu-kien">Phụ kiện</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/tre-em">TRẺ EM</a>
+                <ul class="sub-menu">
+                    <li><a href="/tre-em/ao">Áo</a></li>
+                    <li><a href="/tre-em/quan">Quần</a></li>
+                    <li><a href="/tre-em/do-bo">Đồ bộ</a></li>
+                    <li><a href="/tre-em/phu-kien">Phụ kiện</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/sale">SALE</a>
+                <ul class="sub-menu">
+                    <li><a href="/sale/50">Sale 50%</a></li>
+                    <li><a href="/sale/30">Sale 30%</a></li>
+                    <li><a href="/sale/clearance">Clearance</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/khau-trang">KHẨU TRANG</a>
+                <ul class="sub-menu">
+                    <li><a href="/khau-trang/vai">Khẩu trang vải</a></li>
+                    <li><a href="/khau-trang/y-te">Khẩu trang y tế</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/bo-suu-tap">BỘ SƯU TẬP</a>
+                <ul class="sub-menu">
+                    <li><a href="/bo-suu-tap/xuan-he">Xuân Hè</a></li>
+                    <li><a href="/bo-suu-tap/thu-dong">Thu Đông</a></li>
+                    <li><a href="/bo-suu-tap/limited">Limited Edition</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/thong-tin">THÔNG TIN</a>
+                <ul class="sub-menu">
+                    <li><a href="/thong-tin/ve-chung-toi">Về chúng tôi</a></li>
+                    <li><a href="/thong-tin/lien-he">Liên hệ</a></li>
+                    <li><a href="/thong-tin/chinh-sach">Chính sách</a></li>
+                </ul>
+            </li>
+        </div>
+        <div class="other">
+            <li class="search-container">
+                <input id="product-search" type="text" placeholder="Tìm kiếm..." autocomplete="off">
+                <i id="search-btn" class="fas fa-search" title="Tìm kiếm"></i>
+                <i id="clear-search" class="fas fa-times" title="Xóa" style="display:none;margin-left:8px;color:#666;cursor:pointer"></i>
+            </li>
+            <div class="icon-container">
+                <li>
+                    <a href="#" class="paw-icon">
+                        <i class="fas fa-paw"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="user-icon">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="cart-icon cart-count">
+                        <i class="fas fa-shopping-bag"></i>
+                    </a>
+                </li>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="category-header">
+            <h1>Áo Nữ</h1>
+            <p>Khám phá các mẫu áo nữ thời trang mới nhất từ IVY moda</p>
+        </div>
+
+        <div class="filter-bar">
+            <div class="filter-options">
+                <select>
+                    <option>Tất cả kiểu áo</option>
+                    <option>Áo sơ mi</option>
+                    <option>Áo thun</option>
+                    <option>Áo kiểu</option>
+                    <option>Áo len</option>
+                </select>
+                <select>
+                    <option>Màu sắc</option>
+                    <option>Trắng</option>
+                    <option>Đen</option>
+                    <option>Xanh</option>
+                </select>
+                <select>
+                    <option>Kích thước</option>
+                    <option>S</option>
+                    <option>M</option>
+                    <option>L</option>
+                    <option>XL</option>
+                </select>
+            </div>
+            <div class="sort-options">
+                <span>Sắp xếp:</span>
+                <select>
+                    <option>Mới nhất</option>
+                    <option>Giá tăng dần</option>
+                    <option>Giá giảm dần</option>
+                    <option>Bán chạy</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="products-grid">
+                <!-- Product Card 1 -->
+                <article class="product-card" data-url="/products/ao-so-mi-nu-1">
+                    <div class="product-image">
+                        <span class="badge">NEW</span>
+                        <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
+                        <a class="product-link" href="/products/ao-so-mi-nu-1">
+                            <img src="../images/slider1.jpg" alt="Áo Sơ Mi Nữ Công Sở">
+                        </a>
+                        <button class="cart-btn" aria-label="Thêm vào giỏ"><i class="fas fa-shopping-bag"></i></button>
+                    </div>
+                    <div class="product-meta">
+                        <div class="color-dots">
+                            <span class="dot" style="background:#fff"></span>
+                            <span class="dot" style="background:#000"></span>
+                        </div>
+                        <h3 class="product-title">
+                            <a href="/products/ao-so-mi-nu-1">Áo Sơ Mi Nữ Công Sở</a>
+                        </h3>
+                        <div class="product-price">890.000₫</div>
+                    </div>
+                </article>
+
+                <!-- Product Card 2 -->
+                <article class="product-card" data-url="/products/ao-kieu-nu-1">
+                    <div class="product-image">
+                        <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
+                        <a class="product-link" href="/products/ao-kieu-nu-1">
+                            <img src="../images/slider2.jpg" alt="Áo Kiểu Nữ Dự Tiệc">
+                        </a>
+                        <button class="cart-btn" aria-label="Thêm vào giỏ"><i class="fas fa-shopping-bag"></i></button>
+                    </div>
+                    <div class="product-meta">
+                        <div class="color-dots">
+                            <span class="dot" style="background:#d8cbe0"></span>
+                        </div>
+                        <h3 class="product-title">
+                            <a href="/products/ao-kieu-nu-1">Áo Kiểu Nữ Dự Tiệc</a>
+                        </h3>
+                        <div class="product-price">1.190.000₫</div>
+                    </div>
+                </article>
+
+                <!-- Product Card 3 -->
+                <article class="product-card" data-url="/products/ao-thun-nu-1">
+                    <div class="product-image">
+                        <span class="badge">HOT</span>
+                        <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
+                        <a class="product-link" href="/products/ao-thun-nu-1">
+                            <img src="../images/slider3.jpg" alt="Áo Thun Nữ Basic">
+                        </a>
+                        <button class="cart-btn" aria-label="Thêm vào giỏ"><i class="fas fa-shopping-bag"></i></button>
+                    </div>
+                    <div class="product-meta">
+                        <div class="color-dots">
+                            <span class="dot" style="background:#333"></span>
+                            <span class="dot" style="background:#fff;border:1px solid #ddd"></span>
+                            <span class="dot" style="background:#e91e63"></span>
+                        </div>
+                        <h3 class="product-title">
+                            <a href="/products/ao-thun-nu-1">Áo Thun Nữ Basic</a>
+                        </h3>
+                        <div class="product-price">590.000₫</div>
+                    </div>
+                </article>
+
+                <!-- Product Card 4 -->
+                <article class="product-card" data-url="/products/ao-len-nu-1">
+                    <div class="product-image">
+                        <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
+                        <a class="product-link" href="/products/ao-len-nu-1">
+                            <img src="../images/slider1.jpg" alt="Áo Len Nữ Cổ Cao">
+                        </a>
+                        <button class="cart-btn" aria-label="Thêm vào giỏ"><i class="fas fa-shopping-bag"></i></button>
+                    </div>
+                    <div class="product-meta">
+                        <div class="color-dots">
+                            <span class="dot" style="background:#8b6ea6"></span>
+                            <span class="dot" style="background:#d2691e"></span>
+                        </div>
+                        <h3 class="product-title">
+                            <a href="/products/ao-len-nu-1">Áo Len Nữ Cổ Cao</a>
+                        </h3>
+                        <div class="product-price">1.290.000₫</div>
+                    </div>
+                </article>
+
+                <!-- Product Card 5 -->
+                <article class="product-card" data-url="/products/ao-khoac-nu-1">
+                    <div class="product-image">
+                        <span class="badge">NEW</span>
+                        <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
+                        <a class="product-link" href="/products/ao-khoac-nu-1">
+                            <img src="../images/slider2.jpg" alt="Áo Khoác Nữ Blazer">
+                        </a>
+                        <button class="cart-btn" aria-label="Thêm vào giỏ"><i class="fas fa-shopping-bag"></i></button>
+                    </div>
+                    <div class="product-meta">
+                        <div class="color-dots">
+                            <span class="dot" style="background:#333"></span>
+                            <span class="dot" style="background:#e9e6df"></span>
+                        </div>
+                        <h3 class="product-title">
+                            <a href="/products/ao-khoac-nu-1">Áo Khoác Nữ Blazer</a>
+                        </h3>
+                        <div class="product-price">1.590.000₫</div>
+                    </div>
+                </article>
+
+                <!-- Product Card 6 -->
+                <article class="product-card" data-url="/products/ao-polo-nu-1">
+                    <div class="product-image">
+                        <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
+                        <a class="product-link" href="/products/ao-polo-nu-1">
+                            <img src="../images/slider3.jpg" alt="Áo Polo Nữ Thể Thao">
+                        </a>
+                        <button class="cart-btn" aria-label="Thêm vào giỏ"><i class="fas fa-shopping-bag"></i></button>
+                    </div>
+                    <div class="product-meta">
+                        <div class="color-dots">
+                            <span class="dot" style="background:#4169e1"></span>
+                            <span class="dot" style="background:#fff;border:1px solid #ddd"></span>
+                        </div>
+                        <h3 class="product-title">
+                            <a href="/products/ao-polo-nu-1">Áo Polo Nữ Thể Thao</a>
+                        </h3>
+                        <div class="product-price">690.000₫</div>
+                    </div>
+                </article>
+
+                <!-- Product Card 7 -->
+                <article class="product-card" data-url="/products/ao-crop-top-nu-1">
+                    <div class="product-image">
+                        <span class="badge">HOT</span>
+                        <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
+                        <a class="product-link" href="/products/ao-crop-top-nu-1">
+                            <img src="../images/slider1.jpg" alt="Áo Crop Top Nữ">
+                        </a>
+                        <button class="cart-btn" aria-label="Thêm vào giỏ"><i class="fas fa-shopping-bag"></i></button>
+                    </div>
+                    <div class="product-meta">
+                        <div class="color-dots">
+                            <span class="dot" style="background:#333"></span>
+                            <span class="dot" style="background:#ff69b4"></span>
+                        </div>
+                        <h3 class="product-title">
+                            <a href="/products/ao-crop-top-nu-1">Áo Crop Top Nữ</a>
+                        </h3>
+                        <div class="product-price">490.000₫</div>
+                    </div>
+                </article>
+
+                <!-- Product Card 8 -->
+                <article class="product-card" data-url="/products/ao-vest-nu-1">
+                    <div class="product-image">
+                        <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
+                        <a class="product-link" href="/products/ao-vest-nu-1">
+                            <img src="../images/slider2.jpg" alt="Áo Vest Nữ Thanh Lịch">
+                        </a>
+                        <button class="cart-btn" aria-label="Thêm vào giỏ"><i class="fas fa-shopping-bag"></i></button>
+                    </div>
+                    <div class="product-meta">
+                        <div class="color-dots">
+                            <span class="dot" style="background:#2f4f4f"></span>
+                        </div>
+                        <h3 class="product-title">
+                            <a href="/products/ao-vest-nu-1">Áo Vest Nữ Thanh Lịch</a>
+                        </h3>
+                        <div class="product-price">1.790.000₫</div>
+                    </div>
+                </article>
+
+                <!-- Product Card 9 -->
+                <article class="product-card" data-url="/products/ao-cardigan-nu-1">
+                    <div class="product-image">
+                        <span class="badge">NEW</span>
+                        <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
+                        <a class="product-link" href="/products/ao-cardigan-nu-1">
+                            <img src="../images/slider3.jpg" alt="Áo Cardigan Nữ">
+                        </a>
+                        <button class="cart-btn" aria-label="Thêm vào giỏ"><i class="fas fa-shopping-bag"></i></button>
+                    </div>
+                    <div class="product-meta">
+                        <div class="color-dots">
+                            <span class="dot" style="background:#d8cbe0"></span>
+                            <span class="dot" style="background:#f5f5dc"></span>
+                        </div>
+                        <h3 class="product-title">
+                            <a href="/products/ao-cardigan-nu-1">Áo Cardigan Nữ</a>
+                        </h3>
+                        <div class="product-price">990.000₫</div>
+                    </div>
+                </article>
+
+                <!-- Product Card 10 -->
+                <article class="product-card" data-url="/products/ao-hoodie-nu-1">
+                    <div class="product-image">
+                        <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
+                        <a class="product-link" href="/products/ao-hoodie-nu-1">
+                            <img src="../images/slider1.jpg" alt="Áo Hoodie Nữ Oversize">
+                        </a>
+                        <button class="cart-btn" aria-label="Thêm vào giỏ"><i class="fas fa-shopping-bag"></i></button>
+                    </div>
+                    <div class="product-meta">
+                        <div class="color-dots">
+                            <span class="dot" style="background:#333"></span>
+                            <span class="dot" style="background:#808080"></span>
+                        </div>
+                        <h3 class="product-title">
+                            <a href="/products/ao-hoodie-nu-1">Áo Hoodie Nữ Oversize</a>
+                        </h3>
+                        <div class="product-price">890.000₫</div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" style="text-align:center;margin:40px 0">
+                <button style="padding:8px 16px;margin:0 4px;border:1px solid #ddd;background:#fff">1</button>
+                <button style="padding:8px 16px;margin:0 4px;border:1px solid #ddd;background:#fff">2</button>
+                <button style="padding:8px 16px;margin:0 4px;border:1px solid #ddd;background:#fff">3</button>
+                <button style="padding:8px 16px;margin:0 4px;border:1px solid #ddd;background:#fff">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Wire up wishlist buttons
+        document.querySelectorAll('.wish-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.preventDefault();
+                e.stopPropagation();
+                btn.classList.toggle('active');
+                const icon = btn.querySelector('i');
+                icon.style.color = btn.classList.contains('active') ? '#e74c3c' : '#666';
+            });
+        });
+
+        // Wire up product card clicks (except cart button)
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', e => {
+                if (e.target.closest('.cart-btn')) return;
+                const url = card.dataset.url;
+                if (url) window.location.href = url;
+            });
+        });
+
+        // Simple filter change handler
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', () => {
+                // In a real app, this would filter/sort the products
+                console.log('Filter/sort changed:', select.value);
+            });
+        });
+    </script>
+</body>
+</html>

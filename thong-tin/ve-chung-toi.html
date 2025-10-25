@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Về chúng tôi | IVY moda</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .about-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .about-header h1 {
+            font-size: 32px;
+            color: #221f20;
+            margin-bottom: 20px;
+        }
+
+        .about-header p {
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-content {
+            padding: 20px;
+        }
+
+        .about-content h2 {
+            font-size: 24px;
+            color: #221f20;
+            margin-bottom: 20px;
+        }
+
+        .about-content p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 30px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #221f20;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .values-section {
+            background: #f8f8f8;
+            padding: 60px 0;
+            margin: 60px 0;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .value-item {
+            text-align: center;
+            padding: 30px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .value-icon {
+            font-size: 36px;
+            color: #221f20;
+            margin-bottom: 20px;
+        }
+
+        .value-title {
+            font-size: 20px;
+            color: #221f20;
+            margin-bottom: 15px;
+        }
+
+        .value-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .timeline {
+            max-width: 800px;
+            margin: 60px auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #ddd;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-content {
+            width: calc(50% - 30px);
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: auto;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #221f20;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::before {
+            left: -40px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before {
+            right: -40px;
+        }
+
+        .timeline-year {
+            font-size: 24px;
+            font-weight: bold;
+            color: #221f20;
+            margin-bottom: 10px;
+        }
+
+        .timeline-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 0;
+            }
+
+            .timeline-content {
+                width: calc(100% - 30px);
+                margin-left: 30px !important;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content::before,
+            .timeline-item:nth-child(even) .timeline-content::before {
+                left: -25px;
+                right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/"><img src="../images/logo.png" alt="IVY moda"></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="about-container">
+            <div class="about-header">
+                <h1>Về IVY moda</h1>
+                <p>Thương hiệu thời trang Việt Nam hàng đầu, mang đến phong cách thời trang hiện đại và đẳng cấp</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-image">
+                    <img src="../images/slider1.jpg" alt="IVY moda store">
+                </div>
+                <div class="about-content">
+                    <h2>Câu chuyện của chúng tôi</h2>
+                    <p>IVY moda được thành lập vào năm 2005 với sứ mệnh mang đến những sản phẩm thời trang chất lượng cao và phong cách hiện đại cho phái đẹp Việt Nam.</p>
+                    <p>Trải qua hơn 15 năm phát triển, IVY moda đã trở thành một trong những thương hiệu thời trang hàng đầu tại Việt Nam với hơn 100 cửa hàng trên toàn quốc.</p>
+                    <p>Chúng tôi tự hào mang đến những bộ sưu tập thời trang đẳng cấp, kết hợp giữa xu hướng quốc tế và văn hóa Việt Nam, tạo nên phong cách riêng biệt cho phái đẹp.</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Cửa hàng trên toàn quốc</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1M+</div>
+                    <div class="stat-label">Khách hàng thân thiết</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5000+</div>
+                    <div class="stat-label">Mẫu thiết kế độc quyền</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2000+</div>
+                    <div class="stat-label">Nhân viên tận tâm</div>
+                </div>
+            </div>
+        </div>
+
+        <section class="values-section">
+            <div class="values-grid">
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="value-title">Chất lượng</h3>
+                    <p class="value-description">Cam kết mang đến những sản phẩm chất lượng cao nhất cho khách hàng</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="value-title">Đam mê</h3>
+                    <p class="value-description">Tận tâm trong từng thiết kế và dịch vụ khách hàng</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3 class="value-title">Sáng tạo</h3>
+                    <p class="value-description">Không ngừng đổi mới và sáng tạo trong từng bộ sưu tập</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="about-container">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2005</div>
+                        <div class="timeline-description">Thành lập IVY moda với cửa hàng đầu tiên tại Hà Nội</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2010</div>
+                        <div class="timeline-description">Mở rộng thị trường với 20 cửa hàng trên toàn quốc</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2015</div>
+                        <div class="timeline-description">Ra mắt dòng sản phẩm cao cấp IVY Premium</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2020</div>
+                        <div class="timeline-description">Phát triển nền tảng thương mại điện tử và đạt 100 cửa hàng</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2025</div>
+                        <div class="timeline-description">Mở rộng thị trường quốc tế và ra mắt công nghệ thời trang thông minh</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Về IVY moda</h3>
+                <ul>
+                    <li><a href="ve-chung-toi.html">Giới thiệu</a></li>
+                    <li><a href="lien-he.html">Liên hệ</a></li>
+                    <li><a href="#">Tuyển dụng</a></li>
+                    <li><a href="#">Tin tức</a></li>
+                    <li><a href="#">Hệ thống cửa hàng</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Hỗ trợ khách hàng</h3>
+                <ul>
+                    <li><a href="#">Hướng dẫn chọn size</a></li>
+                    <li><a href="#">Chính sách khách hàng VIP</a></li>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Thanh toán, giao nhận</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Liên hệ</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> Hotline: 0123 456 789</p>
+                    <p><i class="fas fa-envelope"></i> Email: cs@ivymoda.vn</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Tầng 12, Tòa nhà IVY, Số 123 Nguyễn Trãi, Thanh Xuân, Hà Nội</p>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Đăng ký nhận tin</h3>
+                <p style="color: #999; margin-bottom: 15px">Nhận thông tin sản phẩm mới nhất, tin khuyến mãi và nhiều hơn nữa.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Email của bạn" required>
+                    <button type="submit">Đăng ký</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 IVY moda All rights reserved</p>
+            <div class="payment-methods">
+                <img src="../images/payment/visa.png" alt="Visa">
+                <img src="../images/payment/mastercard.png" alt="Mastercard">
+                <img src="../images/payment/jcb.png" alt="JCB">
+                <img src="../images/payment/momo.png" alt="Momo">
+                <img src="../images/payment/vnpay.png" alt="VNPay">
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

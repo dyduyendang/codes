@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký | IVY moda</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-header h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #221f20;
+            outline: none;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 14px;
+            background-color: #221f20;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .auth-button:hover {
+            background-color: #000;
+        }
+
+        .auth-links {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .auth-links a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .auth-links a:hover {
+            color: #221f20;
+            text-decoration: underline;
+        }
+
+        .terms {
+            margin: 20px 0;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+
+        .terms a {
+            color: #221f20;
+            text-decoration: none;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
+        }
+
+        .social-login {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .social-login p {
+            color: #666;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .social-login p::before,
+        .social-login p::after {
+            content: "";
+            display: inline-block;
+            width: 100px;
+            height: 1px;
+            background: #ddd;
+            margin: 0 10px;
+            vertical-align: middle;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .social-button:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-2px);
+        }
+
+        .social-button i {
+            font-size: 20px;
+            color: #666;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-top: 3px;
+        }
+
+        .checkbox-group label {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/"><img src="images/logo.png" alt="IVY moda"></a>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+            <div class="user-area"></div>
+            <a href="cart.html" class="cart-icon" title="Giỏ hàng">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count-badge" style="background:#ff4d4f;color:white;border-radius:50%;padding:2px 7px;margin-left:6px;font-size:12px;">0</span>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="auth-container">
+            <div class="auth-header">
+                <h1>Đăng ký tài khoản</h1>
+                <p>Tạo tài khoản để nhận nhiều ưu đãi hấp dẫn</p>
+            </div>
+
+            <form id="registerForm" onsubmit="return handleRegister(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">Họ</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                        <div class="error-message" id="firstNameError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Tên</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                        <div class="error-message" id="lastNameError"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error-message" id="emailError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Số điện thoại</label>
+                    <input type="tel" id="phone" name="phone" required>
+                    <div class="error-message" id="phoneError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" name="password" required>
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Xác nhận mật khẩu</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <div class="error-message" id="confirmPasswordError"></div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="newsletter" name="newsletter">
+                    <label for="newsletter">
+                        Đăng ký nhận bản tin từ IVY moda
+                    </label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        Tôi đồng ý với các <a href="#">Điều khoản dịch vụ</a> và <a href="#">Chính sách bảo mật</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="auth-button">Đăng ký</button>
+
+                <div class="auth-links">
+                    <p>Đã có tài khoản? <a href="login.html">Đăng nhập ngay</a></p>
+                </div>
+
+                <div class="social-login">
+                    <p>Hoặc đăng ký bằng</p>
+                    <div class="social-buttons">
+                        <button type="button" class="social-button" onclick="socialRegister('facebook')">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+                        <button type="button" class="social-button" onclick="socialRegister('google')">
+                            <i class="fab fa-google"></i>
+                        </button>
+                        <button type="button" class="social-button" onclick="socialRegister('apple')">
+                            <i class="fab fa-apple"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        async function handleRegister(event) {
+            event.preventDefault();
+            document.querySelectorAll('.error-message').forEach(el => { el.style.display='none'; el.textContent=''; });
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const submitBtn = document.querySelector('#registerForm .auth-button');
+
+            if (firstName.length < 2) { document.getElementById('firstNameError').textContent = 'Họ phải có ít nhất 2 ký tự'; document.getElementById('firstNameError').style.display='block'; return false; }
+            if (lastName.length < 2) { document.getElementById('lastNameError').textContent = 'Tên phải có ít nhất 2 ký tự'; document.getElementById('lastNameError').style.display='block'; return false; }
+            if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) { document.getElementById('emailError').textContent='Email không hợp lệ'; document.getElementById('emailError').style.display='block'; return false; }
+            if (!phone.match(/^[0-9]{9,12}$/)) { document.getElementById('phoneError').textContent='Số điện thoại không hợp lệ'; document.getElementById('phoneError').style.display='block'; return false; }
+            if (password.length < 6) { document.getElementById('passwordError').textContent='Mật khẩu phải có ít nhất 6 ký tự'; document.getElementById('passwordError').style.display='block'; return false; }
+            if (password !== confirmPassword) { document.getElementById('confirmPasswordError').textContent='Mật khẩu xác nhận không khớp'; document.getElementById('confirmPasswordError').style.display='block'; return false; }
+            if (!document.getElementById('terms').checked) { alert('Vui lòng đồng ý với điều khoản dịch vụ và chính sách bảo mật'); return false; }
+
+            // disable submit
+            if(submitBtn){ submitBtn.disabled = true; submitBtn.dataset.orig = submitBtn.innerHTML; submitBtn.innerHTML = 'Đang xử lý...'; }
+            try{
+                const res = await APP.registerUserAsync({ firstName, lastName, email, phone, password });
+                if (!res.ok) { document.getElementById('emailError').textContent = res.message || 'Đăng ký thất bại'; document.getElementById('emailError').style.display='block'; return false; }
+                alert('Đăng ký thành công, bạn đã được đăng nhập tự động');
+                window.location.href = 'index.html';
+            }catch(e){
+                document.getElementById('emailError').textContent = 'Lỗi hệ thống. Vui lòng thử lại.'; document.getElementById('emailError').style.display='block';
+            }finally{
+                if(submitBtn){ submitBtn.disabled = false; submitBtn.innerHTML = submitBtn.dataset.orig || 'Đăng ký'; }
+            }
+            return false;
+        }
+
+        function socialRegister(platform) {
+            // Here you would implement social registration logic
+            console.log(`Registering with ${platform}`);
+            alert(`Đăng ký bằng ${platform} (Chức năng đang phát triển)`);
+        }
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>

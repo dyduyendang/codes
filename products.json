@@ -1,0 +1,23 @@
+[
+  {
+    "id": "product1",
+    "title": "Chân Váy Bút Chì Elegant Bloom",
+    "price": 1390000,
+    "description": "Chân váy bút chì với chất liệu cao cấp, phù hợp công sở và dạo phố.",
+    "images": ["images/slider1.jpg","images/slider2.jpg"]
+  },
+  {
+    "id": "product2",
+    "title": "Đầm Xòe Elegant Simplicity",
+    "price": 1590000,
+    "description": "Đầm xòe thanh lịch, họa tiết tinh tế, tôn dáng.",
+    "images": ["images/slider2.jpg","images/slider3.jpg"]
+  },
+  {
+    "id": "product3",
+    "title": "Áo Tweed Lilac Elegance",
+    "price": 1990000,
+    "description": "Áo tweed sang trọng, phù hợp mùa thu đông.",
+    "images": ["images/slider3.jpg","images/slider1.jpg"]
+  }
+]

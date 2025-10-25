@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý kho hàng - IVY moda Admin</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="../js/analytics.js"></script>
+    <style>
+        /* Copy base admin styles */
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .admin-logo {
+            padding: 0 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .admin-logo img {
+            max-width: 150px;
+        }
+
+        .admin-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .admin-menu li {
+            margin-bottom: 5px;
+        }
+
+        .admin-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .admin-menu a:hover,
+        .admin-menu a.active {
+            background: #34495e;
+            color: #3498db;
+        }
+
+        .admin-menu i {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        .admin-content {
+            flex-grow: 1;
+            margin-left: 250px;
+            padding: 20px;
+            background: #f5f6fa;
+        }
+
+        /* Inventory specific styles */
+        .inventory-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .summary-card h3 {
+            margin: 0 0 10px 0;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .summary-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .summary-trend {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .trend-up { color: #2ecc71; }
+        .trend-down { color: #e74c3c; }
+
+        .stock-alerts {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .alerts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .alerts-title {
+            font-size: 18px;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .alert-badge {
+            background: #e74c3c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .alert-icon {
+            width: 40px;
+            height: 40px;
+            background: #fff3cd;
+            color: #856404;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .alert-content {
+            flex-grow: 1;
+        }
+
+        .alert-message {
+            margin: 0 0 5px 0;
+            color: #2c3e50;
+        }
+
+        .alert-info {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .alert-action {
+            padding: 5px 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .inventory-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #7f8c8d;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .inventory-table {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table-title {
+            font-size: 18px;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .stock-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .stock-table th,
+        .stock-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stock-table th {
+            background: #f8f9fa;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .stock-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .product-details h4 {
+            margin: 0 0 5px 0;
+            color: #2c3e50;
+        }
+
+        .product-sku {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .stock-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-in-stock { background: #d4edda; color: #155724; }
+        .status-low-stock { background: #fff3cd; color: #856404; }
+        .status-out-of-stock { background: #f8d7da; color: #721c24; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background: white;
+            width: 600px;
+            max-width: 90%;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #7f8c8d;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .stock-chart {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                width: 60px;
+            }
+
+            .admin-sidebar span {
+                display: none;
+            }
+
+            .admin-content {
+                margin-left: 60px;
+            }
+
+            .inventory-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <img src="../images/logo.png" alt="IVY moda Admin">
+            </div>
+
+            <ul class="admin-menu">
+                <li><a href="dashboard.html"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i><span>Sản phẩm</span></a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-cart"></i><span>Đơn hàng</span></a></li>
+                <li><a href="users.html"><i class="fas fa-users"></i><span>Khách hàng</span></a></li>
+                <li><a href="#" class="active"><i class="fas fa-warehouse"></i><span>Kho hàng</span></a></li>
+                <li><a href="#categories"><i class="fas fa-tags"></i><span>Danh mục</span></a></li>
+                <li><a href="#marketing"><i class="fas fa-bullhorn"></i><span>Marketing</span></a></li>
+                <li><a href="#reports"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a></li>
+                <li><a href="#settings"><i class="fas fa-cog"></i><span>Cài đặt</span></a></li>
+                <li><a href="../" onclick="return confirm('Bạn có chắc muốn đăng xuất?')">
+                    <i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span>
+                </a></li>
+            </ul>
+        </aside>
+
+        <main class="admin-content">
+            <header class="admin-header">
+                <h1 class="page-title">Quản lý kho hàng</h1>
+                <div class="admin-header-right">
+                    <div class="admin-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                    </div>
+                    <div class="admin-user">
+                        <img src="../images/avatar-default.jpg" alt="Admin">
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="inventory-summary">
+                <div class="summary-card">
+                    <h3>Tổng sản phẩm</h3>
+                    <div class="summary-value">1,245</div>
+                    <div class="summary-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        15 sản phẩm mới
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Giá trị tồn kho</h3>
+                    <div class="summary-value">₫1.25B</div>
+                    <div class="summary-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        8.5% so với tháng trước
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Hàng sắp hết</h3>
+                    <div class="summary-value">28</div>
+                    <div class="summary-trend trend-down">
+                        <i class="fas fa-arrow-down"></i>
+                        5 so với tuần trước
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Tỷ lệ quay vòng</h3>
+                    <div class="summary-value">4.2</div>
+                    <div class="summary-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        0.3 so với tháng trước
+                    </div>
+                </div>
+            </div>
+
+            <div class="stock-alerts">
+                <div class="alerts-header">
+                    <h2 class="alerts-title">Cảnh báo tồn kho <span class="alert-badge">3</span></h2>
+                </div>
+
+                <div class="alert-item">
+                    <div class="alert-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="alert-content">
+                        <h4 class="alert-message">Đầm Xòe Elegant đang sắp hết hàng</h4>
+                        <p class="alert-info">Còn lại 5 sản phẩm - Dưới mức tồn kho tối thiểu</p>
+                    </div>
+                    <button class="alert-action">Nhập hàng</button>
+                </div>
+
+                <div class="alert-item">
+                    <div class="alert-icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="alert-content">
+                        <h4 class="alert-message">Áo Sơ Mi Basic đã hết hàng</h4>
+                        <p class="alert-info">0 sản phẩm - Cần nhập hàng gấp</p>
+                    </div>
+                    <button class="alert-action">Nhập hàng</button>
+                </div>
+            </div>
+
+            <div class="inventory-tabs">
+                <button class="tab-btn active">Tất cả sản phẩm</button>
+                <button class="tab-btn">Sắp hết hàng</button>
+                <button class="tab-btn">Hết hàng</button>
+                <button class="tab-btn">Mới nhập</button>
+            </div>
+
+            <div class="inventory-table">
+                <div class="table-header">
+                    <h2 class="table-title">Quản lý tồn kho</h2>
+                    <div class="table-actions">
+                        <button class="btn btn-primary" onclick="openStockModal()">
+                            <i class="fas fa-plus"></i> Nhập hàng
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportInventory()">
+                            <i class="fas fa-download"></i> Xuất Excel
+                        </button>
+                    </div>
+                </div>
+
+                <table class="stock-table">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>SKU</th>
+                            <th>Danh mục</th>
+                            <th>Tồn kho</th>
+                            <th>Đã bán</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="product-info">
+                                    <img src="../images/slider1.jpg" alt="Product" class="product-image">
+                                    <div class="product-details">
+                                        <h4>Đầm Xòe Elegant</h4>
+                                        <div class="product-sku">SKU: DXE001</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>DXE001</td>
+                            <td>Đầm</td>
+                            <td>5</td>
+                            <td>95</td>
+                            <td><span class="stock-status status-low-stock">Sắp hết hàng</span></td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="btn btn-secondary" onclick="adjustStock('DXE001')">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="viewStockHistory('DXE001')">
+                                        <i class="fas fa-history"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- More product rows -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="stock-chart">
+                <canvas id="stockTrendChart"></canvas>
+            </div>
+        </main>
+    </div>
+
+    <!-- Stock Modal -->
+    <div id="stockModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('stockModal')">&times;</button>
+            
+            <h2>Nhập hàng mới</h2>
+            
+            <form id="stockForm" class="form-grid">
+                <div class="form-group">
+                    <label>Sản phẩm</label>
+                    <select required>
+                        <option value="">Chọn sản phẩm</option>
+                        <option value="DXE001">Đầm Xòe Elegant</option>
+                        <option value="ASM001">Áo Sơ Mi Basic</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Số lượng</label>
+                    <input type="number" required min="1">
+                </div>
+
+                <div class="form-group">
+                    <label>Giá nhập</label>
+                    <input type="number" required min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Nhà cung cấp</label>
+                    <select required>
+                        <option value="">Chọn nhà cung cấp</option>
+                        <option value="SUP001">Nhà cung cấp A</option>
+                        <option value="SUP002">Nhà cung cấp B</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Ghi chú</label>
+                    <input type="text">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('stockModal')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize stock trend chart
+        const ctx = document.getElementById('stockTrendChart').getContext('2d');
+        const stockTrendChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+                datasets: [{
+                    label: 'Tồn kho',
+                    data: [120, 115, 108, 98, 85, 75, 70],
+                    borderColor: '#3498db',
+                    tension: 0.4,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Xu hướng tồn kho'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#f0f0f0'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Modal functions
+        function openStockModal() {
+            document.getElementById('stockModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function adjustStock(sku) {
+            openStockModal();
+            // Here you would normally populate the form with current stock details
+        }
+
+        function viewStockHistory(sku) {
+            alert(`Xem lịch sử tồn kho cho SKU: ${sku}`);
+        }
+
+        function exportInventory() {
+            alert('Tính năng xuất Excel sẽ sớm được cập nhật!');
+        }
+
+        // Handle stock form submission
+        document.getElementById('stockForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            console.log('Stock data:', Object.fromEntries(formData));
+            
+            closeModal('stockModal');
+            alert('Đã cập nhật tồn kho!');
+
+            // Track in analytics
+            APP_ANALYTICS.trackAdminAction('update_stock', {
+                sku: formData.get('product'),
+                quantity: formData.get('quantity')
+            });
+        });
+
+        // Handle tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                // Here you would normally filter the inventory table based on the selected tab
+            });
+        });
+
+        // Initialize analytics
+        document.addEventListener('DOMContentLoaded', function() {
+            APP_ANALYTICS.trackPageView('Admin Inventory', window.location.pathname);
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

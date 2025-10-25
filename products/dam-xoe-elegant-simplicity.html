@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đầm Xòe Elegant Simplicity | IVY moda</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .product-detail {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .product-images {
+            position: relative;
+        }
+
+        .main-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .thumbnail {
+            cursor: pointer;
+            border-radius: 4px;
+            overflow: hidden;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            opacity: 1;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: auto;
+        }
+
+        .product-info h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .product-code {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .product-price {
+            font-size: 24px;
+            color: #221f20;
+            margin-bottom: 25px;
+        }
+
+        .color-options {
+            margin-bottom: 25px;
+        }
+
+        .color-options h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .color-grid {
+            display: flex;
+            gap: 10px;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .color-option.active {
+            border-color: #221f20;
+        }
+
+        .size-options {
+            margin-bottom: 25px;
+        }
+
+        .size-options h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .size-guide {
+            color: #666;
+            text-decoration: underline;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .size-grid {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .size-option {
+            min-width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 4px;
+            padding: 0 15px;
+        }
+
+        .size-option:hover {
+            border-color: #221f20;
+        }
+
+        .size-option.active {
+            background: #221f20;
+            color: white;
+            border-color: #221f20;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .quantity-input {
+            width: 60px;
+            height: 40px;
+            border: 1px solid #ddd;
+            text-align: center;
+            margin: 0 10px;
+        }
+
+        .add-to-cart {
+            background: #221f20;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: #000;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .wishlist-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .product-description {
+            margin-top: 30px;
+        }
+
+        .product-description h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .description-content {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .product-details {
+            margin-top: 30px;
+        }
+
+        .detail-row {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding: 12px 0;
+        }
+
+        .detail-label {
+            width: 150px;
+            color: #666;
+        }
+
+        .detail-value {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .product-detail {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/"><img src="../images/logo.png" alt="IVY moda"></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="product-detail">
+            <div class="product-images">
+                <img src="../images/slider2.jpg" alt="Đầm Xòe Elegant Simplicity" class="main-image">
+                <div class="thumbnail-grid">
+                    <div class="thumbnail active">
+                        <img src="../images/slider2.jpg" alt="Đầm Xòe Elegant Simplicity - Mặt trước">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="../images/slider3.jpg" alt="Đầm Xòe Elegant Simplicity - Mặt sau">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="../images/slider1.jpg" alt="Đầm Xòe Elegant Simplicity - Chi tiết">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="../images/slider4.jpg" alt="Đầm Xòe Elegant Simplicity - Phụ kiện">
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-info">
+                <h1>Đầm Xòe Elegant Simplicity</h1>
+                <div class="product-code">MS: 12345678</div>
+                <div class="product-price">1.590.000₫</div>
+
+                <div class="color-options">
+                    <h3>Màu sắc</h3>
+                    <div class="color-grid">
+                        <div class="color-option active" style="background-color: #fff; border: 1px solid #ddd;" title="Trắng"></div>
+                        <div class="color-option" style="background-color: #000;" title="Đen"></div>
+                        <div class="color-option" style="background-color: #d8cbe0;" title="Tím nhạt"></div>
+                    </div>
+                </div>
+
+                <div class="size-options">
+                    <h3>
+                        Kích thước
+                        <span class="size-guide">Hướng dẫn chọn size</span>
+                    </h3>
+                    <div class="size-grid">
+                        <div class="size-option">S</div>
+                        <div class="size-option active">M</div>
+                        <div class="size-option">L</div>
+                        <div class="size-option">XL</div>
+                    </div>
+                </div>
+
+                <div class="quantity-selector">
+                    <button class="quantity-btn" onclick="updateQuantity(-1)">-</button>
+                    <input type="number" value="1" min="1" class="quantity-input" id="quantity">
+                    <button class="quantity-btn" onclick="updateQuantity(1)">+</button>
+                </div>
+
+                <button class="add-to-cart">
+                    <i class="fas fa-shopping-bag"></i>
+                    Thêm vào giỏ hàng
+                </button>
+
+                <div class="product-actions">
+                    <div class="wishlist-btn">
+                        <i class="far fa-heart"></i>
+                        Thêm vào yêu thích
+                    </div>
+                </div>
+
+                <div class="product-description">
+                    <h3>Mô tả sản phẩm</h3>
+                    <div class="description-content">
+                        <p>Đầm xòe thanh lịch với thiết kế đơn giản nhưng tinh tế. Phần cổ được thiết kế độc đáo, tôn lên vẻ đẹp của phần vai và xương quai xanh. Chất liệu vải cao cấp, ít nhăn, thoáng mát và dễ chịu khi mặc.</p>
+                    </div>
+                </div>
+
+                <div class="product-details">
+                    <div class="detail-row">
+                        <div class="detail-label">Chất liệu</div>
+                        <div class="detail-value">Cotton 95%, Spandex 5%</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Kiểu dáng</div>
+                        <div class="detail-value">Đầm xòe, dài qua gối</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Sản xuất tại</div>
+                        <div class="detail-value">Việt Nam</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Về IVY moda</h3>
+                <ul>
+                    <li><a href="../thong-tin/ve-chung-toi.html">Giới thiệu</a></li>
+                    <li><a href="../thong-tin/lien-he.html">Liên hệ</a></li>
+                    <li><a href="#">Tuyển dụng</a></li>
+                    <li><a href="#">Tin tức</a></li>
+                    <li><a href="#">Hệ thống cửa hàng</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Hỗ trợ khách hàng</h3>
+                <ul>
+                    <li><a href="#">Hướng dẫn chọn size</a></li>
+                    <li><a href="#">Chính sách khách hàng VIP</a></li>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Thanh toán, giao nhận</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Liên hệ</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> Hotline: 0123 456 789</p>
+                    <p><i class="fas fa-envelope"></i> Email: cs@ivymoda.vn</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Tầng 12, Tòa nhà IVY, Số 123 Nguyễn Trãi, Thanh Xuân, Hà Nội</p>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Đăng ký nhận tin</h3>
+                <p style="color: #999; margin-bottom: 15px">Nhận thông tin sản phẩm mới nhất, tin khuyến mãi và nhiều hơn nữa.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Email của bạn" required>
+                    <button type="submit">Đăng ký</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 IVY moda All rights reserved</p>
+            <div class="payment-methods">
+                <img src="../images/payment/visa.png" alt="Visa">
+                <img src="../images/payment/mastercard.png" alt="Mastercard">
+                <img src="../images/payment/jcb.png" alt="JCB">
+                <img src="../images/payment/momo.png" alt="Momo">
+                <img src="../images/payment/vnpay.png" alt="VNPay">
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Xử lý chọn màu sắc
+        const colorOptions = document.querySelectorAll('.color-option');
+        colorOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                colorOptions.forEach(op => op.classList.remove('active'));
+                option.classList.add('active');
+            });
+        });
+
+        // Xử lý chọn size
+        const sizeOptions = document.querySelectorAll('.size-option');
+        sizeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                sizeOptions.forEach(op => op.classList.remove('active'));
+                option.classList.add('active');
+            });
+        });
+
+        // Xử lý số lượng
+        function updateQuantity(change) {
+            const input = document.getElementById('quantity');
+            const currentValue = parseInt(input.value) || 1;
+            const newValue = Math.max(1, currentValue + change);
+            input.value = newValue;
+        }
+
+        // Xử lý hình ảnh thumbnail
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        const mainImage = document.querySelector('.main-image');
+
+        thumbnails.forEach(thumbnail => {
+            thumbnail.addEventListener('click', () => {
+                // Cập nhật hình ảnh chính
+                mainImage.src = thumbnail.querySelector('img').src;
+                // Cập nhật trạng thái active
+                thumbnails.forEach(t => t.classList.remove('active'));
+                thumbnail.classList.add('active');
+            });
+        });
+
+        // Xử lý yêu thích
+        const wishlistBtn = document.querySelector('.wishlist-btn');
+        wishlistBtn.addEventListener('click', () => {
+            const icon = wishlistBtn.querySelector('i');
+            icon.classList.toggle('far');
+            icon.classList.toggle('fas');
+            icon.style.color = icon.classList.contains('fas') ? '#e74c3c' : '#666';
+        });
+
+        // Xử lý thêm vào giỏ hàng
+        document.querySelector('.add-to-cart').addEventListener('click', () => {
+            const selectedColor = document.querySelector('.color-option.active').getAttribute('title');
+            const selectedSize = document.querySelector('.size-option.active').textContent;
+            const quantity = document.getElementById('quantity').value;
+            
+            alert(`Đã thêm vào giỏ hàng:\n- Màu: ${selectedColor}\n- Size: ${selectedSize}\n- Số lượng: ${quantity}`);
+        });
+
+        // Xử lý hướng dẫn chọn size
+        document.querySelector('.size-guide').addEventListener('click', () => {
+            alert('Bảng hướng dẫn chọn size đang được cập nhật');
+        });
+    </script>
+</body>
+</html>

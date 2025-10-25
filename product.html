@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Chi tiết sản phẩm | IVY moda</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    .product-page { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+    .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+    .product-images img { width:100%; border-radius:8px; }
+    .product-details h1 { font-size:24px; margin-bottom:10px }
+    .price { font-size:20px; color:#221f20; font-weight:700; margin-bottom:10px }
+    .add-btn { background:#221f20; color:white; padding:12px 20px; border-radius:6px; border:none; cursor:pointer }
+    header { display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:white; box-shadow:0 2px 5px rgba(0,0,0,0.05); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo"><a href="/"><img src="images/logo.png" alt="IVY moda"></a></div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <div class="user-area"></div>
+      <a href="cart.html" class="cart-icon" title="Giỏ hàng">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="cart-count-badge" style="background:#ff4d4f;color:white;border-radius:50%;padding:2px 7px;margin-left:6px;font-size:12px;">0</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="product-page">
+    <div id="productContainer">Đang tải...</div>
+  </main>
+
+  <footer></footer>
+
+  <script src="app.js"></script>
+  <script>
+    (function(){
+      function q(name){ const url = new URL(window.location.href); return url.searchParams.get(name); }
+      const id = q('id') || 'product1';
+      fetch('products.json').then(r=>r.json()).then(products=>{
+        const p = products.find(x=>x.id===id);
+        const el = document.getElementById('productContainer');
+        if(!p){ el.innerHTML = '<p>Sản phẩm không tìm thấy</p>'; return; }
+        el.innerHTML = `
+          <div class="product-grid">
+            <div class="product-images">
+              <img src="${p.images[0]}" alt="${p.title}">
+            </div>
+            <div class="product-details">
+              <h1>${p.title}</h1>
+              <div class="price">${formatVND(p.price)}</div>
+              <p>${p.description}</p>
+              <div style="margin:16px 0">
+                <label>Size:</label>
+                <select id="sizeSelect"><option>S</option><option>M</option><option>L</option><option>XL</option></select>
+              </div>
+              <div>
+                <button class="add-btn" id="addToCartBtn">Thêm vào giỏ</button>
+                <button class="add-btn" id="buyNowBtn" style="margin-left:8px;background:#ff6f61">Mua ngay</button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        document.getElementById('addToCartBtn').addEventListener('click', function(){
+          APP.addToCart({id:p.id, title:p.title, price:p.price, img:p.images[0], qty:1});
+          document.querySelectorAll('.cart-count-badge').forEach(b=>b.textContent = APP.getCart().reduce((s,i)=>s+i.qty,0));
+          alert('Đã thêm vào giỏ hàng');
+        });
+        document.getElementById('buyNowBtn').addEventListener('click', function(){
+          APP.addToCart({id:p.id, title:p.title, price:p.price, img:p.images[0], qty:1});
+          window.location.href='cart.html';
+        });
+      }).catch(err=>{ document.getElementById('productContainer').textContent='Không thể tải dữ liệu sản phẩm'; });
+    })();
+  </script>
+</body>
+</html>

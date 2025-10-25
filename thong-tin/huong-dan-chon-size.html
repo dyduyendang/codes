@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng dẫn chọn size | IVY moda</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .size-guide-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .size-guide-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .size-guide-header h1 {
+            font-size: 32px;
+            color: #221f20;
+            margin-bottom: 20px;
+        }
+
+        .size-guide-header p {
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .size-guide-content {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .size-guide-section {
+            margin-bottom: 40px;
+        }
+
+        .size-guide-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .size-guide-section h2 {
+            font-size: 24px;
+            color: #221f20;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .size-guide-section h3 {
+            font-size: 18px;
+            color: #221f20;
+            margin: 20px 0 10px;
+        }
+
+        .size-guide-section p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .measurement-diagram {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .measurement-diagram img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .size-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .size-table th,
+        .size-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .size-table th {
+            background: #f8f8f8;
+            font-weight: 600;
+            color: #221f20;
+        }
+
+        .size-table td {
+            color: #666;
+        }
+
+        .tips-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .tips-list li {
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f8f8;
+            border-radius: 4px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .tips-list li i {
+            color: #221f20;
+            margin-right: 10px;
+        }
+
+        .measurement-steps {
+            counter-reset: step;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .measurement-steps li {
+            position: relative;
+            padding: 20px 20px 20px 70px;
+            margin-bottom: 15px;
+            background: #f8f8f8;
+            border-radius: 4px;
+        }
+
+        .measurement-steps li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            background: #221f20;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .size-guide-content {
+                padding: 20px;
+            }
+
+            .size-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .measurement-steps li {
+                padding: 15px 15px 15px 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/"><img src="../images/logo.png" alt="IVY moda"></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="size-guide-container">
+            <div class="size-guide-header">
+                <h1>Hướng dẫn chọn size</h1>
+                <p>Chọn đúng size là yếu tố quan trọng để trang phục của bạn vừa vặn và thoải mái nhất. Hãy tham khảo bảng size chi tiết dưới đây.</p>
+            </div>
+
+            <div class="size-guide-content">
+                <div class="size-guide-section">
+                    <h2>1. Cách đo kích thước</h2>
+                    <div class="measurement-diagram">
+                        <img src="../images/size-guide.jpg" alt="Hướng dẫn đo kích thước">
+                    </div>
+
+                    <h3>Các bước đo chi tiết:</h3>
+                    <ul class="measurement-steps">
+                        <li>Đo vòng ngực: Đo phần rộng nhất của ngực, giữ thước ngang và không quá chặt</li>
+                        <li>Đo vòng eo: Đo phần nhỏ nhất của eo, thường là vị trí rốn</li>
+                        <li>Đo vòng hông: Đo phần rộng nhất của hông, thường cách eo khoảng 20cm</li>
+                        <li>Đo chiều dài: Đo từ vai xuống đến điểm muốn áo kết thúc</li>
+                    </ul>
+                </div>
+
+                <div class="size-guide-section">
+                    <h2>2. Bảng size chuẩn</h2>
+                    
+                    <h3>2.1. Áo nữ</h3>
+                    <table class="size-table">
+                        <thead>
+                            <tr>
+                                <th>Size</th>
+                                <th>S</th>
+                                <th>M</th>
+                                <th>L</th>
+                                <th>XL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Vòng ngực (cm)</td>
+                                <td>82-85</td>
+                                <td>86-89</td>
+                                <td>90-93</td>
+                                <td>94-97</td>
+                            </tr>
+                            <tr>
+                                <td>Vòng eo (cm)</td>
+                                <td>64-67</td>
+                                <td>68-71</td>
+                                <td>72-75</td>
+                                <td>76-79</td>
+                            </tr>
+                            <tr>
+                                <td>Vòng hông (cm)</td>
+                                <td>88-91</td>
+                                <td>92-95</td>
+                                <td>96-99</td>
+                                <td>100-103</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>2.2. Áo nam</h3>
+                    <table class="size-table">
+                        <thead>
+                            <tr>
+                                <th>Size</th>
+                                <th>S</th>
+                                <th>M</th>
+                                <th>L</th>
+                                <th>XL</th>
+                                <th>XXL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Vòng ngực (cm)</td>
+                                <td>88-91</td>
+                                <td>92-95</td>
+                                <td>96-99</td>
+                                <td>100-103</td>
+                                <td>104-107</td>
+                            </tr>
+                            <tr>
+                                <td>Vòng eo (cm)</td>
+                                <td>73-76</td>
+                                <td>77-80</td>
+                                <td>81-84</td>
+                                <td>85-88</td>
+                                <td>89-92</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="size-guide-section">
+                    <h2>3. Mẹo chọn size</h2>
+                    <ul class="tips-list">
+                        <li><i class="fas fa-check"></i>Đo kích thước vào buổi sáng để có số đo chính xác nhất</li>
+                        <li><i class="fas fa-check"></i>Sử dụng thước dây mềm và đo sát cơ thể, không đo qua quần áo</li>
+                        <li><i class="fas fa-check"></i>Nếu số đo nằm giữa hai size, nên chọn size lớn hơn</li>
+                        <li><i class="fas fa-check"></i>Với áo khoác hoặc áo phông, có thể chọn size rộng hơn một chút để thoải mái</li>
+                        <li><i class="fas fa-check"></i>Với quần jean hoặc váy ôm, nên chọn đúng size để tôn dáng</li>
+                    </ul>
+                </div>
+
+                <div class="size-guide-section">
+                    <h2>4. Lưu ý khi chọn size</h2>
+                    <ul>
+                        <li>Mỗi dòng sản phẩm có thể có form khác nhau, vui lòng tham khảo thông tin chi tiết sản phẩm</li>
+                        <li>Nếu chưa chắc chắn về size, bạn có thể liên hệ hotline để được tư vấn</li>
+                        <li>IVY moda có chính sách đổi size miễn phí trong vòng 7 ngày</li>
+                    </ul>
+                </div>
+
+                <div class="size-guide-section">
+                    <h2>5. Hỗ trợ chọn size</h2>
+                    <p>Nếu bạn cần được tư vấn thêm về size, vui lòng liên hệ:</p>
+                    <ul>
+                        <li>Hotline: 0123 456 789 (8:30 - 17:30)</li>
+                        <li>Chat trực tuyến tại website</li>
+                        <li>Inbox Fanpage: IVY moda</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Về IVY moda</h3>
+                <ul>
+                    <li><a href="ve-chung-toi.html">Giới thiệu</a></li>
+                    <li><a href="lien-he.html">Liên hệ</a></li>
+                    <li><a href="#">Tuyển dụng</a></li>
+                    <li><a href="#">Tin tức</a></li>
+                    <li><a href="#">Hệ thống cửa hàng</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Hỗ trợ khách hàng</h3>
+                <ul>
+                    <li><a href="huong-dan-chon-size.html">Hướng dẫn chọn size</a></li>
+                    <li><a href="#">Chính sách khách hàng VIP</a></li>
+                    <li><a href="chinh-sach-doi-tra.html">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Thanh toán, giao nhận</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Liên hệ</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> Hotline: 0123 456 789</p>
+                    <p><i class="fas fa-envelope"></i> Email: cs@ivymoda.vn</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Tầng 12, Tòa nhà IVY, Số 123 Nguyễn Trãi, Thanh Xuân, Hà Nội</p>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Đăng ký nhận tin</h3>
+                <p style="color: #999; margin-bottom: 15px">Nhận thông tin sản phẩm mới nhất, tin khuyến mãi và nhiều hơn nữa.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Email của bạn" required>
+                    <button type="submit">Đăng ký</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 IVY moda All rights reserved</p>
+            <div class="payment-methods">
+                <img src="../images/payment/visa.png" alt="Visa">
+                <img src="../images/payment/mastercard.png" alt="Mastercard">
+                <img src="../images/payment/jcb.png" alt="JCB">
+                <img src="../images/payment/momo.png" alt="Momo">
+                <img src="../images/payment/vnpay.png" alt="VNPay">
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

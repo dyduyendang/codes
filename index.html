@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="IVY moda - Thời trang cao cấp dành cho phái đẹp. Khám phá các bộ sưu tập mới nhất và xu hướng thời trang mới nhất.">
+        <meta name="keywords" content="thời trang, thời trang nữ, ivy moda, thời trang cao cấp, đầm, áo dài, quần áo">
+        <meta name="author" content="IVY moda">
+        <meta property="og:title" content="IVY moda - Thời trang cao cấp"> 
+        <meta property="og:description" content="Thời trang cao cấp dành cho phái đẹp. Khám phá BST mới nhất.">
+        <meta property="og:image" content="images/logo.png">
+        <link rel="icon" type="image/png" href="images/favicon.png">
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+        <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <title>IVY moda - Thời trang cao cấp</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="gallery.css">
+    <script src="js/analytics.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Xử lý menu và submenu
+            const menu = document.querySelector('.menu');
+            const menuItems = menu.querySelectorAll('li');
+            
+            menuItems.forEach(item => {
+                const link = item.querySelector('a');
+                const submenu = item.querySelector('.sub-menu');
+                
+                if (submenu) {
+                    // Xử lý hover cho menu chính
+                    item.addEventListener('mouseenter', function() {
+                        submenu.style.display = 'block';
+                        submenu.style.opacity = '1';
+                    });
+                    
+                    item.addEventListener('mouseleave', function() {
+                        submenu.style.display = 'none';
+                        submenu.style.opacity = '0';
+                    });
+                    
+                    // Xử lý click vào menu chính
+                    link.addEventListener('click', function(e) {
+                        if (this.getAttribute('href') === '#' || !this.getAttribute('href')) {
+                            e.preventDefault();
+                        }
+                    });
+
+                    // Xử lý click vào submenu items
+                    const submenuLinks = submenu.querySelectorAll('a');
+                    submenuLinks.forEach(sublink => {
+                        sublink.addEventListener('click', function(e) {
+                            // Lưu đường dẫn đã click vào localStorage
+                            localStorage.setItem('lastVisitedCategory', this.getAttribute('href'));
+                            
+                            // Cho phép chuyển trang bình thường
+                            return true;
+                        });
+                    });
+                }
+            });
+
+            // Highlight menu item dựa trên trang hiện tại
+            const currentPath = window.location.pathname;
+            const allLinks = menu.querySelectorAll('a');
+            
+            allLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && currentPath.includes(href)) {
+                    link.classList.add('active');
+                    // Nếu là submenu item, highlight luôn menu cha
+                    const parentLi = link.closest('.sub-menu')?.parentElement;
+                    if (parentLi) {
+                        parentLi.querySelector('> a').classList.add('active');
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+                <img src="images/logo.png">
+        </div>
+        <div class="menu">
+            <li>
+                <a href="#">NỮ</a>
+                <ul class="sub-menu">
+                    <li><a href="nu/ao.html" onclick="saveCategory('nu-ao')">Áo</a></li>
+                    <li><a href="nu/quan.html" onclick="saveCategory('nu-quan')">Quần</a></li>
+                    <li><a href="nu/vay.html" onclick="saveCategory('nu-vay')">Váy</a></li>
+                    <li><a href="nu/phu-kien.html" onclick="saveCategory('nu-phukien')">Phụ kiện</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">NAM</a>
+                <ul class="sub-menu">
+                    <li><a href="nam/ao.html" onclick="saveCategory('nam-ao')">Áo</a></li>
+                    <li><a href="nam/quan.html" onclick="saveCategory('nam-quan')">Quần</a></li>
+                    <li><a href="nam/giay.html" onclick="saveCategory('nam-giay')">Giày</a></li>
+                    <li><a href="nam/phu-kien.html" onclick="saveCategory('nam-phukien')">Phụ kiện</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="tre-em">TRẺ EM</a>
+                <ul class="sub-menu">
+                    <li><a href="tre-em/ao.html">Áo</a></li>
+                    <li><a href="tre-em/quan.html">Quần</a></li>
+                    <li><a href="tre-em/do-bo.html">Đồ bộ</a></li>
+                    <li><a href="tre-em/phu-kien.html">Phụ kiện</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="sale">SALE</a>
+                <ul class="sub-menu">
+                    <li><a href="sale/50.html">Sale 50%</a></li>
+                    <li><a href="sale/30.html">Sale 30%</a></li>
+                    <li><a href="sale/clearance.html">Clearance</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="khau-trang">KHẨU TRANG</a>
+                <ul class="sub-menu">
+                    <li><a href="khau-trang/vai.html">Khẩu trang vải</a></li>
+                    <li><a href="khau-trang/y-te.html">Khẩu trang y tế</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="bo-suu-tap">BỘ SƯU TẬP</a>
+                <ul class="sub-menu">
+                    <li><a href="bo-suu-tap/xuan-he.html">Xuân Hè</a></li>
+                    <li><a href="bo-suu-tap/thu-dong.html">Thu Đông</a></li>
+                    <li><a href="bo-suu-tap/limited.html">Limited Edition</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="thong-tin">THÔNG TIN</a>
+                <ul class="sub-menu">
+                    <li><a href="thong-tin/ve-chung-toi.html">Về chúng tôi</a></li>
+                    <li><a href="thong-tin/lien-he.html">Liên hệ</a></li>
+                    <li><a href="thong-tin/chinh-sach.html">Chính sách</a></li>
+                </ul>
+            </li>
+        </div>
+        <div class="other">
+                <li class="search-container">
+                    <form id="search-form" onsubmit="handleSearch(event)">
+                        <input id="product-search" type="text" placeholder="Tìm kiếm: áo, quần, váy, đầm, phụ kiện..." autocomplete="off">
+                        <button type="submit" class="search-btn">
+                            <i class="fas fa-search" title="Tìm kiếm"></i>
+                        </button>
+                    </form>
+                </li>
+                <div class="icon-container">
+                    <li>
+                        <a href="#" class="paw-icon" onclick="handlePawClick()">
+                            <i class="fas fa-paw"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="user-area">
+                            <!-- Static fallback: clicking icon goes to login page -->
+                            <a href="login.html" class="user-icon" title="Đăng nhập">
+                                <i class="fas fa-user"></i>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="cart.html" class="cart-icon" title="Giỏ hàng">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span class="cart-count-badge" style="background:#ff4d4f;color:white;border-radius:50%;padding:2px 7px;margin-left:6px;font-size:12px;">0</span>
+                        </a>
+                    </li>
+                </div>
+        </div>
+    </header>    
+    
+    </section>
+    <section class="slider">
+        <div class="slider-inner">
+            <div class="slider-content">
+                <div class="slide active">
+                    <div class="aspect-ratio-169">
+                           <img src="images/slider1.jpg" alt="BST Thu Đông 2025 - Elegant Bloom" loading="lazy">
+                    </div>
+                    
+                </div>
+                <div class="slide">
+                    <div class="aspect-ratio-169">
+                           <img src="images/slider2.jpg" alt="BST Xuân Hè 2025 - Summer Breeze" loading="lazy">
+                    </div>
+                    
+                    
+                </div>
+                <div class="slide">
+                    <div class="aspect-ratio-169">
+                           <img src="images/slider3.jpg" alt="Sale Up To 50% - Black Friday" loading="lazy">
+                    </div>
+                    
+                </div>
+            </div>
+
+            <button class="prev-btn"><i class="fas fa-chevron-left"></i></button>
+            <button class="next-btn"><i class="fas fa-chevron-right"></i></button>
+
+            <div class="slider-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="new-arrival">
+        <div class="container">
+            <h2 class="na-heading">NEW ARRIVAL</h2>
+            <div class="na-tabs">
+                <button class="tab active">IVY moda</button>
+                <button class="tab">Metagent</button>
+            </div>
+
+            <div class="products-grid">
+                <!-- product cards -->
+                <article class="product-card" data-url="product1.html">
+                        <div class="product-image">
+                            <span class="badge">NEW</span>
+                            <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
+                            <a class="product-link" href="product1.html"><img src="images/slider1.jpg" alt="Chân Váy Bút Chì Elegant Bloom"></a>
+                            <button class="cart-btn" aria-label="Add to cart"><i class="fas fa-shopping-bag"></i></button>
+                        </div>
+                    <div class="product-meta">
+                        <div class="color-dots">
+                            <span class="dot" style="background:#8b6ea6"></span>
+                            <span class="dot" style="background:#333"></span>
+                        </div>
+                        <h3 class="product-title"><a href="product1.html">Chân Váy Bút Chì Elegant Bloom</a></h3>
+                        <div class="product-price">1.390.000₫</div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-url="product2.html">
+                    <div class="product-image">
+                        <span class="badge">NEW</span>
+                        <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
+                        <a class="product-link" href="product2.html"><img src="images/slider2.jpg" alt="Đầm Xòe Elegant Simplicity"></a>
+                        <button class="cart-btn" aria-label="Add to cart"><i class="fas fa-shopping-bag"></i></button>
+                    </div>
+                    <div class="product-meta">
+                        <div class="color-dots">
+                            <span class="dot" style="background:#fff; border:1px solid #ddd"></span>
+                        </div>
+                        <h3 class="product-title"><a href="product2.html">Đầm Xòe Elegant Simplicity</a></h3>
+                        <div class="product-price">1.590.000₫</div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-url="product3.html">
+                    <div class="product-image">
+                        <span class="badge">NEW</span>
+                        <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
+                        <a class="product-link" href="product3.html"><img src="images/slider3.jpg" alt="Áo Tweed Lilac Elegance"></a>
+                        <button class="cart-btn" aria-label="Add to cart"><i class="fas fa-shopping-bag"></i></button>
+                    </div>
+                    <div class="product-meta">
+                        <div class="color-dots">
+                            <span class="dot" style="background:#d8cbe0"></span>
+                        </div>
+                        <h3 class="product-title"><a href="product3.html">Áo Tweed Lilac Elegance</a></h3>
+                        <div class="product-price">1.990.000₫</div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-url="product4.html">
+                    <div class="product-image">
+                        <span class="badge">NEW</span>
+                        <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
+                        <a class="product-link" href="product4.html"><img src="images/slider1.jpg" alt="Quần Tây Ông Suông Adele"></a>
+                        <button class="cart-btn" aria-label="Add to cart"><i class="fas fa-shopping-bag"></i></button>
+                    </div>
+                    <div class="product-meta">
+                        <div class="color-dots">
+                            <span class="dot" style="background:#333"></span>
+                            <span class="dot" style="background:#e9e6df"></span>
+                        </div>
+                        <h3 class="product-title"><a href="product4.html">Quần Tây Ông Suông Adele</a></h3>
+                        <div class="product-price">1.190.000₫</div>
+                    </div>
+                </article>
+
+                <article class="product-card" data-url="product5.html">
+                    <div class="product-image">
+                        <span class="badge">NEW</span>
+                        <button class="wish-btn" aria-label="Yêu thích"><i class="fas fa-heart"></i></button>
+                        <a class="product-link" href="product5.html"><img src="images/slider2.jpg" alt="Áo Thun Dài Tay Basic Chic"></a>
+                        <button class="cart-btn" aria-label="Add to cart"><i class="fas fa-shopping-bag"></i></button>
+                    </div>
+                    <div class="product-meta">
+                        <div class="color-dots">
+                            <span class="dot" style="background:#333"></span>
+                        </div>
+                        <h3 class="product-title"><a href="product5.html">Áo Thun Dài Tay Basic Chic</a></h3>
+                        <div class="product-price">790.000₫</div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="view-all-wrap">
+                <a href="#" class="view-all">Xem tất cả</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="collections">
+        <div class="container">
+            <h2 class="collections-heading">BỘ SƯU TẬP</h2>
+            <div class="season-tabs">
+                <button class="season-tab active" data-target="spring">Xuân</button>
+                <button class="season-tab" data-target="summer">Hạ</button>
+                <button class="season-tab" data-target="autumn">Thu</button>
+                <button class="season-tab" data-target="winter">Đông</button>
+            </div>
+
+            <div class="season-grids">
+                <div id="spring" class="season-grid active">
+                    <!-- reuse product-card markup (3 items as example) -->
+                        <article class="product-card" data-url="spring-1.html">
+                            <div class="product-image"><a class="product-link" href="spring-1.html"><img src="images/slider1.jpg" alt="Xuân - Mẫu 1"></a><button class="cart-btn"><i class="fas fa-shopping-bag"></i></button></div>
+                            <div class="product-meta"><h3 class="product-title"><a href="spring-1.html">Xuân - Mẫu 1</a></h3><div class="product-price">990.000₫</div></div>
+                        </article>
+                        <article class="product-card" data-url="spring-2.html">
+                            <div class="product-image"><a class="product-link" href="spring-2.html"><img src="images/slider2.jpg" alt="Xuân - Mẫu 2"></a><button class="cart-btn"><i class="fas fa-shopping-bag"></i></button></div>
+                            <div class="product-meta"><h3 class="product-title"><a href="spring-2.html">Xuân - Mẫu 2</a></h3><div class="product-price">1.150.000₫</div></div>
+                        </article>
+                        <article class="product-card" data-url="spring-3.html">
+                            <div class="product-image"><a class="product-link" href="spring-3.html"><img src="images/slider3.jpg" alt="Xuân - Mẫu 3"></a><button class="cart-btn"><i class="fas fa-shopping-bag"></i></button></div>
+                            <div class="product-meta"><h3 class="product-title"><a href="spring-3.html">Xuân - Mẫu 3</a></h3><div class="product-price">1.250.000₫</div></div>
+                        </article>
+                </div>
+
+                <div id="summer" class="season-grid">
+                    <article class="product-card" data-url="summer-1.html">
+                        <div class="product-image"><a class="product-link" href="summer-1.html"><img src="images/slider2.jpg" alt="Hạ - Mẫu 1"></a><button class="cart-btn"><i class="fas fa-shopping-bag"></i></button></div>
+                        <div class="product-meta"><h3 class="product-title"><a href="summer-1.html">Hạ - Mẫu 1</a></h3><div class="product-price">850.000₫</div></div>
+                    </article>
+                    <article class="product-card" data-url="summer-2.html">
+                        <div class="product-image"><a class="product-link" href="summer-2.html"><img src="images/slider3.jpg" alt="Hạ - Mẫu 2"></a><button class="cart-btn"><i class="fas fa-shopping-bag"></i></button></div>
+                        <div class="product-meta"><h3 class="product-title"><a href="summer-2.html">Hạ - Mẫu 2</a></h3><div class="product-price">1.100.000₫</div></div>
+                    </article>
+                    <article class="product-card" data-url="summer-3.html">
+                        <div class="product-image"><a class="product-link" href="summer-3.html"><img src="images/slider1.jpg" alt="Hạ - Mẫu 3"></a><button class="cart-btn"><i class="fas fa-shopping-bag"></i></button></div>
+                        <div class="product-meta"><h3 class="product-title"><a href="summer-3.html">Hạ - Mẫu 3</a></h3><div class="product-price">920.000₫</div></div>
+                    </article>
+                </div>
+
+                <div id="autumn" class="season-grid">
+                    <article class="product-card" data-url="autumn-1.html">
+                        <div class="product-image"><a class="product-link" href="autumn-1.html"><img src="images/slider3.jpg" alt="Thu - Mẫu 1"></a><button class="cart-btn"><i class="fas fa-shopping-bag"></i></button></div>
+                        <div class="product-meta"><h3 class="product-title"><a href="autumn-1.html">Thu - Mẫu 1</a></h3><div class="product-price">1.350.000₫</div></div>
+                    </article>
+                    <article class="product-card" data-url="autumn-2.html">
+                        <div class="product-image"><a class="product-link" href="autumn-2.html"><img src="images/slider1.jpg" alt="Thu - Mẫu 2"></a><button class="cart-btn"><i class="fas fa-shopping-bag"></i></button></div>
+                        <div class="product-meta"><h3 class="product-title"><a href="autumn-2.html">Thu - Mẫu 2</a></h3><div class="product-price">1.450.000₫</div></div>
+                    </article>
+                    <article class="product-card" data-url="autumn-3.html">
+                        <div class="product-image"><a class="product-link" href="autumn-3.html"><img src="images/slider2.jpg" alt="Thu - Mẫu 3"></a><button class="cart-btn"><i class="fas fa-shopping-bag"></i></button></div>
+                        <div class="product-meta"><h3 class="product-title"><a href="autumn-3.html">Thu - Mẫu 3</a></h3><div class="product-price">1.290.000₫</div></div>
+                    </article>
+                </div>
+
+                <div id="winter" class="season-grid">
+                    <article class="product-card" data-url="winter-1.html">
+                        <div class="product-image"><a class="product-link" href="winter-1.html"><img src="images/slider1.jpg" alt="Đông - Mẫu 1"></a><button class="cart-btn"><i class="fas fa-shopping-bag"></i></button></div>
+                        <div class="product-meta"><h3 class="product-title"><a href="winter-1.html">Đông - Mẫu 1</a></h3><div class="product-price">1.690.000₫</div></div>
+                    </article>
+                    <article class="product-card" data-url="winter-2.html">
+                        <div class="product-image"><a class="product-link" href="winter-2.html"><img src="images/slider2.jpg" alt="Đông - Mẫu 2"></a><button class="cart-btn"><i class="fas fa-shopping-bag"></i></button></div>
+                        <div class="product-meta"><h3 class="product-title"><a href="winter-2.html">Đông - Mẫu 2</a></h3><div class="product-price">1.590.000₫</div></div>
+                    </article>
+                    <article class="product-card" data-url="winter-3.html">
+                        <div class="product-image"><a class="product-link" href="winter-3.html"><img src="images/slider3.jpg" alt="Đông - Mẫu 3"></a><button class="cart-btn"><i class="fas fa-shopping-bag"></i></button></div>
+                        <div class="product-meta"><h3 class="product-title"><a href="winter-3.html">Đông - Mẫu 3</a></h3><div class="product-price">1.790.000₫</div></div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Về IVY moda</h3>
+                <ul>
+                    <li><a href="thong-tin/ve-chung-toi.html">Giới thiệu</a></li>
+                    <li><a href="thong-tin/lien-he.html">Liên hệ</a></li>
+                       <li><a href="tin-tuc/tuyen-dung.html">Tuyển dụng</a></li>
+                       <li><a href="tin-tuc/index.html">Tin tức</a></li>
+                       <li><a href="thong-tin/he-thong-cua-hang.html">Hệ thống cửa hàng</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Hỗ trợ khách hàng</h3>
+                <ul>
+                       <li><a href="thong-tin/huong-dan-chon-size.html">Hướng dẫn chọn size</a></li>
+                       <li><a href="thong-tin/khach-hang-vip.html">Chính sách khách hàng VIP</a></li>
+                       <li><a href="thong-tin/chinh-sach-doi-tra.html">Chính sách đổi trả</a></li>
+                       <li><a href="thong-tin/chinh-sach-bao-mat.html">Chính sách bảo mật</a></li>
+                       <li><a href="thong-tin/thanh-toan-giao-nhan.html">Thanh toán, giao nhận</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Liên hệ</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> Hotline: 0123 456 789</p>
+                    <p><i class="fas fa-envelope"></i> Email: cs@ivymoda.vn</p>
+                    <p><i class="fas fa-map-marker-alt"></i> TP.HCM</p>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Đăng ký nhận tin</h3>
+                <p style="color: #999; margin-bottom: 15px">Nhận thông tin sản phẩm mới nhất, tin khuyến mãi và nhiều hơn nữa.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Email của bạn" required>
+                    <button type="submit">Đăng ký</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 IVY moda All rights reserved</p>
+            <div class="payment-methods">
+                <img src="images/payment/visa.png" alt="Visa">
+                <img src="images/payment/mastercard.png" alt="Mastercard">
+                <img src="images/payment/jcb.png" alt="JCB">
+                <img src="images/payment/momo.png" alt="Momo">
+                <img src="images/payment/vnpay.png" alt="VNPay">
+            </div>
+        </div>
+    </footer>
+
+    <script>
+            // Hàm tìm kiếm và chuyển hướng đến trang danh mục
+            function handleSearch(event) {
+                if (event && event.preventDefault) event.preventDefault();
+                const searchInput = document.getElementById('product-search');
+                if (!searchInput) return;
+
+                // Normalize function: remove diacritics and lowercase for robust matching
+                function normalize(str) {
+                    return str
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .toLowerCase();
+                }
+
+                const searchTerm = normalize(searchInput.value.trim());
+
+                // Danh sách danh mục (key = keyword to match after normalization)
+                const categories = {
+                    'dam': 'nu/vay.html',
+                    'vay': 'nu/vay.html',
+                    'ao': 'nu/ao.html',
+                    'quan': 'nu/quan.html',
+                    'phu kien': 'nu/phu-kien.html',
+                    'phukien': 'nu/phu-kien.html',
+                    'phuk':'nu/phu-kien.html' // short for phụ kiện
+                };
+
+                for (let key in categories) {
+                    if (searchTerm.includes(normalize(key))) {
+                        window.location.href = categories[key];
+                        return;
+                    }
+                }
+
+                // Nếu không tìm thấy
+                alert('Không tìm thấy danh mục. Vui lòng thử tìm: áo, quần, váy, đầm, phụ kiện');
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                // Slider functionality (fade, pause on hover, reset interval on interaction)
+                const slides = document.querySelectorAll('.slide');
+                const dots = document.querySelectorAll('.dot');
+                const prevBtn = document.querySelector('.prev-btn');
+                const nextBtn = document.querySelector('.next-btn');
+                let currentSlide = 0;
+                let slideInterval = null;
+                const AUTO_MS = 4500;
+
+                function showSlide(n) {
+                    // normalize index
+                    const idx = (n + slides.length) % slides.length;
+                    slides.forEach((s, i) => {
+                        if (i === idx) {
+                            s.classList.add('active');
+                        } else {
+                            s.classList.remove('active');
+                        }
+                    });
+                    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+                    currentSlide = idx;
+                }
+
+                function nextSlide() { showSlide(currentSlide + 1); }
+                function prevSlide() { showSlide(currentSlide - 1); }
+
+                function startAuto() {
+                    stopAuto();
+                    slideInterval = setInterval(nextSlide, AUTO_MS);
+                }
+
+                function stopAuto() {
+                    if (slideInterval) { clearInterval(slideInterval); slideInterval = null; }
+                }
+
+                prevBtn.addEventListener('click', function() { prevSlide(); startAuto(); });
+                nextBtn.addEventListener('click', function() { nextSlide(); startAuto(); });
+
+                dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => { showSlide(index); startAuto(); });
+                });
+
+                // pause on hover/focus
+                const sliderEl = document.querySelector('.slider');
+                sliderEl.addEventListener('mouseenter', stopAuto);
+                sliderEl.addEventListener('mouseleave', startAuto);
+                sliderEl.addEventListener('focusin', stopAuto);
+                sliderEl.addEventListener('focusout', startAuto);
+
+                // initialize
+                showSlide(0);
+                startAuto();
+
+                // Gallery image hover effect
+                const galleryItems = document.querySelectorAll('.gallery-item');
+            
+                galleryItems.forEach(item => {
+                    item.addEventListener('mouseenter', function() {
+                        this.querySelector('.gallery-overlay').style.opacity = '1';
+                    });
+                
+                    item.addEventListener('mouseleave', function() {
+                        this.querySelector('.gallery-overlay').style.opacity = '0';
+                    });
+                });
+
+                // Season tabs handling
+                const seasonTabs = document.querySelectorAll('.season-tab');
+                const seasonGrids = document.querySelectorAll('.season-grid');
+
+                seasonTabs.forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        const target = this.getAttribute('data-target');
+                        // toggle active tab
+                        seasonTabs.forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        // show/hide grids
+                        seasonGrids.forEach(g => {
+                            if (g.id === target) {
+                                g.classList.add('active');
+                            } else {
+                                g.classList.remove('active');
+                            }
+                        });
+                    });
+                });
+
+                // Hàm tìm kiếm và chuyển hướng đến sản phẩm
+                function searchProduct(event) {
+                    event.preventDefault();
+                    const searchInput = document.getElementById('product-search');
+                    const searchTerm = searchInput.value.trim().toLowerCase();
+
+                    // Danh sách sản phẩm và đường dẫn
+                    const products = {
+                        'dam': 'products/dam-xoe-elegant-simplicity.html',
+                        'đầm': 'products/dam-xoe-elegant-simplicity.html',
+                        'vay': 'products/chan-vay-but-chi-elegant-bloom.html',
+                        'váy': 'products/chan-vay-but-chi-elegant-bloom.html',
+                        'ao': 'products/ao-tweed-lilac-elegance.html',
+                        'áo': 'products/ao-tweed-lilac-elegance.html',
+                        'quan': 'products/quan-tay-ong-suong-adele.html',
+                        'quần': 'products/quan-tay-ong-suong-adele.html'
+                    };
+
+                    // Tìm sản phẩm phù hợp
+                    for (let key in products) {
+                        if (searchTerm.includes(key)) {
+                            window.location.href = products[key];
+                            return;
+                        }
+                    }
+
+                    // Nếu không tìm thấy
+                    alert('Không tìm thấy sản phẩm. Vui lòng thử tìm: đầm, váy, áo, quần');
+                }
+                // Simplified search handlers: route to category pages via the global handleSearch
+                const searchInput = document.getElementById('product-search');
+                const searchForm = document.getElementById('search-form');
+                const searchBtn = document.querySelector('.search-btn');
+
+                if (searchForm) {
+                    searchForm.addEventListener('submit', function(e){
+                        e.preventDefault();
+                        handleSearch(e);
+                    });
+                }
+
+                if (searchBtn) {
+                    searchBtn.addEventListener('click', function(e){
+                        e.preventDefault();
+                        handleSearch(e);
+                    });
+                }
+
+                if (searchInput) {
+                    // Enter key should trigger category search
+                    searchInput.addEventListener('keydown', function(e){
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleSearch(e);
+                        }
+                    });
+                }
+            });
+    </script>
+    <script src="app.js"></script>
+    <script>
+        // Hàm lưu category đã chọn
+        function saveCategory(category) {
+            localStorage.setItem('currentCategory', category);
+        }
+
+        // Kiểm tra và highlight category hiện tại
+        function highlightCurrentCategory() {
+            const currentCategory = localStorage.getItem('currentCategory');
+            if (currentCategory) {
+                const allLinks = document.querySelectorAll('.menu a');
+                allLinks.forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href && href.includes(currentCategory.split('-')[1])) {
+                        link.classList.add('active');
+                        // Highlight menu cha nếu đang ở submenu
+                        const parentMenu = link.closest('.sub-menu');
+                        if (parentMenu) {
+                            const parentLink = parentMenu.parentElement.querySelector('> a');
+                            parentLink.classList.add('active');
+                        }
+                    }
+                });
+            }
+        }
+
+        // Track page view when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            APP_ANALYTICS.trackPageView('Trang chủ', window.location.pathname);
+
+            // Track product views
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('.cart-btn')) {
+                        const title = card.querySelector('.product-title').textContent;
+                        const price = parseFloat(card.querySelector('.product-price').textContent.replace(/[^\d]/g, ''));
+                        APP_ANALYTICS.trackProductView({
+                            id: card.dataset.url,
+                            name: title,
+                            price: price
+                        });
+                    }
+                });
+            });
+
+            // Track add to cart events
+            document.querySelectorAll('.cart-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const card = btn.closest('.product-card');
+                    const title = card.querySelector('.product-title').textContent;
+                    const price = parseFloat(card.querySelector('.product-price').textContent.replace(/[^\d]/g, ''));
+                    APP_ANALYTICS.trackAddToCart({
+                        id: card.dataset.url,
+                        name: title,
+                        price: price,
+                        quantity: 1
+                    });
+                });
+            });
+
+            // Track wishlist events
+            document.querySelectorAll('.wish-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const card = btn.closest('.product-card');
+                    const title = card.querySelector('.product-title').textContent;
+                    const price = parseFloat(card.querySelector('.product-price').textContent.replace(/[^\d]/g, ''));
+                    APP_ANALYTICS.trackAddToWishlist({
+                        id: card.dataset.url,
+                        name: title,
+                        price: price
+                    });
+                });
+            });
+
+            // Track search events
+            const searchInput = document.getElementById('product-search');
+            searchInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter' && this.value.trim()) {
+                    APP_ANALYTICS.trackSearch(this.value.trim());
+                }
+            });
+        });
+    </script>
+</body>
+</html>

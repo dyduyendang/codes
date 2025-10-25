@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo - IVY moda Admin</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="../js/analytics.js"></script>
+    <style>
+        /* Base admin styles */
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .admin-logo {
+            padding: 0 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .admin-logo img {
+            max-width: 150px;
+        }
+
+        .admin-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .admin-menu li {
+            margin-bottom: 5px;
+        }
+
+        .admin-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .admin-menu a:hover,
+        .admin-menu a.active {
+            background: #34495e;
+            color: #3498db;
+        }
+
+        .admin-menu i {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        .admin-content {
+            flex-grow: 1;
+            margin-left: 250px;
+            padding: 20px;
+            background: #f5f6fa;
+        }
+
+        /* Reports specific styles */
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .date-range {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .date-input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .report-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card-title {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin: 0 0 10px 0;
+        }
+
+        .card-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 0 0 10px 0;
+        }
+
+        .card-trend {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        .trend-up { color: #2ecc71; }
+        .trend-down { color: #e74c3c; }
+
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .report-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .chart-container {
+            padding: 20px;
+            height: 300px;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .report-table th,
+        .report-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .report-table th {
+            background: #f8f9fa;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .report-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .product-details h4 {
+            margin: 0 0 5px 0;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .product-category {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            color: #2c3e50;
+        }
+
+        .filter-select {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: #2c3e50;
+        }
+
+        .comparison-card {
+            display: flex;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-period {
+            flex: 1;
+            text-align: center;
+        }
+
+        .period-label {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .period-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .period-change {
+            font-size: 14px;
+        }
+
+        .change-positive { color: #2ecc71; }
+        .change-negative { color: #e74c3c; }
+
+        .metric-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .metric-item {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                width: 60px;
+            }
+
+            .admin-sidebar span {
+                display: none;
+            }
+
+            .admin-content {
+                margin-left: 60px;
+            }
+
+            .report-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <img src="../images/logo.png" alt="IVY moda Admin">
+            </div>
+
+            <ul class="admin-menu">
+                <li><a href="dashboard.html"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i><span>Sản phẩm</span></a></li>
+                <li><a href="orders.html"><i class="fas fa-shopping-cart"></i><span>Đơn hàng</span></a></li>
+                <li><a href="users.html"><i class="fas fa-users"></i><span>Khách hàng</span></a></li>
+                <li><a href="inventory.html"><i class="fas fa-warehouse"></i><span>Kho hàng</span></a></li>
+                <li><a href="categories.html"><i class="fas fa-tags"></i><span>Danh mục</span></a></li>
+                <li><a href="marketing.html"><i class="fas fa-bullhorn"></i><span>Marketing</span></a></li>
+                <li><a href="#" class="active"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a></li>
+                <li><a href="#settings"><i class="fas fa-cog"></i><span>Cài đặt</span></a></li>
+                <li><a href="../" onclick="return confirm('Bạn có chắc muốn đăng xuất?')">
+                    <i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span>
+                </a></li>
+            </ul>
+        </aside>
+
+        <main class="admin-content">
+            <div class="report-header">
+                <div class="date-range">
+                    <input type="date" class="date-input" value="2025-10-01">
+                    <span>đến</span>
+                    <input type="date" class="date-input" value="2025-10-25">
+                </div>
+                <div class="report-actions">
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-sync"></i> Làm mới
+                    </button>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-download"></i> Xuất báo cáo
+                    </button>
+                </div>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label class="filter-label">Danh mục:</label>
+                    <select class="filter-select">
+                        <option value="">Tất cả</option>
+                        <option value="nam">Nam</option>
+                        <option value="nu">Nữ</option>
+                        <option value="tre-em">Trẻ em</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Thời gian:</label>
+                    <select class="filter-select">
+                        <option value="day">Theo ngày</option>
+                        <option value="week">Theo tuần</option>
+                        <option value="month">Theo tháng</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">So sánh với:</label>
+                    <select class="filter-select">
+                        <option value="previous">Kỳ trước</option>
+                        <option value="last-year">Cùng kỳ năm trước</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="report-summary">
+                <div class="summary-card">
+                    <h3 class="card-title">Doanh thu</h3>
+                    <p class="card-value">₫1.25B</p>
+                    <div class="card-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        15.2% so với tháng trước
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <h3 class="card-title">Đơn hàng</h3>
+                    <p class="card-value">1,458</p>
+                    <div class="card-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        8.5% so với tháng trước
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <h3 class="card-title">Giá trị trung bình</h3>
+                    <p class="card-value">₫858K</p>
+                    <div class="card-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        6.2% so với tháng trước
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <h3 class="card-title">Tỷ lệ chuyển đổi</h3>
+                    <p class="card-value">3.2%</p>
+                    <div class="card-trend trend-down">
+                        <i class="fas fa-arrow-down"></i>
+                        0.5% so với tháng trước
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-grid">
+                <div class="report-card">
+                    <div class="comparison-card">
+                        <div class="comparison-period">
+                            <div class="period-label">Kỳ này</div>
+                            <div class="period-value">₫1.25B</div>
+                            <div class="period-change change-positive">+15.2%</div>
+                        </div>
+                        <div class="comparison-period">
+                            <div class="period-label">Kỳ trước</div>
+                            <div class="period-value">₫1.08B</div>
+                        </div>
+                    </div>
+                    <div class="metric-breakdown">
+                        <div class="metric-item">
+                            <div class="metric-value">₫858K</div>
+                            <div class="metric-label">Giá trị TB/Đơn</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">1,458</div>
+                            <div class="metric-label">Số đơn hàng</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">3.2%</div>
+                            <div class="metric-label">Tỷ lệ chuyển đổi</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <div class="chart-container">
+                        <canvas id="productChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th>Đã bán</th>
+                                <th>Doanh thu</th>
+                                <th>Tỷ suất LN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="product-info">
+                                        <img src="../images/slider1.jpg" alt="Product" class="product-image">
+                                        <div class="product-details">
+                                            <h4>Đầm Xòe Elegant</h4>
+                                            <div class="product-category">Đầm</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>95</td>
+                                <td>₫142.5M</td>
+                                <td class="trend-up">32%</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="product-info">
+                                        <img src="../images/slider2.jpg" alt="Product" class="product-image">
+                                        <div class="product-details">
+                                            <h4>Áo Sơ Mi Nam</h4>
+                                            <div class="product-category">Áo</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>78</td>
+                                <td>₫85.8M</td>
+                                <td class="trend-up">28%</td>
+                            </tr>
+                            <!-- More rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize revenue chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        const revenueChart = new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: ['01/10', '05/10', '10/10', '15/10', '20/10', '25/10'],
+                datasets: [{
+                    label: 'Doanh thu',
+                    data: [850, 920, 980, 1050, 1150, 1250],
+                    borderColor: '#3498db',
+                    tension: 0.4,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Doanh thu theo thời gian (Triệu ₫)'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#f0f0f0'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Initialize category chart
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        const categoryChart = new Chart(categoryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Đầm', 'Áo', 'Quần', 'Giày', 'Phụ kiện'],
+                datasets: [{
+                    data: [30, 25, 20, 15, 10],
+                    backgroundColor: [
+                        '#3498db',
+                        '#2ecc71',
+                        '#e74c3c',
+                        '#f1c40f',
+                        '#9b59b6'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Doanh thu theo danh mục'
+                    }
+                }
+            }
+        });
+
+        // Initialize product performance chart
+        const productCtx = document.getElementById('productChart').getContext('2d');
+        const productChart = new Chart(productCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Đầm Xòe', 'Áo Sơ Mi', 'Quần Jean', 'Giày Cao Gót', 'Túi Xách'],
+                datasets: [{
+                    label: 'Doanh thu',
+                    data: [142.5, 85.8, 65.4, 45.2, 35.6],
+                    backgroundColor: '#3498db'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Top sản phẩm bán chạy (Triệu ₫)'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#f0f0f0'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Handle date range change
+        document.querySelectorAll('.date-input').forEach(input => {
+            input.addEventListener('change', function() {
+                // Here you would normally update the charts and data
+                console.log('Date range changed:', this.value);
+            });
+        });
+
+        // Handle filters change
+        document.querySelectorAll('.filter-select').forEach(select => {
+            select.addEventListener('change', function() {
+                // Here you would normally update the charts and data
+                console.log('Filter changed:', this.value);
+            });
+        });
+
+        // Initialize analytics
+        document.addEventListener('DOMContentLoaded', function() {
+            APP_ANALYTICS.trackPageView('Admin Reports', window.location.pathname);
+        });
+    </script>
+</body>
+</html>
